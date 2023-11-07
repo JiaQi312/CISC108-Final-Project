@@ -7,11 +7,14 @@ class World:
     egg: DesignerObject
     egg_speedx: int
     egg_speedy: int
+    game_time: DesignerObject
+    game_time_value: int
 
 
 def create_world() -> World:
     "Creating World"
-    return World(create_egg(), 0, 0)
+    return World(create_egg(), 0, 0,
+                 text("black", "Time: ", 24, get_width() / 2, 20), 0)
 
 
 def create_egg() -> DesignerObject:
@@ -19,6 +22,16 @@ def create_egg() -> DesignerObject:
     egg = emoji("egg")
     egg.y = get_height() * (1 / 2)
     return egg
+
+
+def create_timer(world: World):
+    "Creating the timer"
+    world.game_time.text = "Timer: " + str(world.game_time_value)
+
+
+def increase_timer(world: World):
+    "Increase an in-game timer that increases over time"
+    world.game_time_value += 1
 
 
 def move_egg(world: World):
@@ -73,7 +86,8 @@ def egg_wall(world: World):
 when("starting", create_world)
 when("updating", move_egg)
 when("updating", egg_wall)
+when("updating", create_timer)
+when("updating", increase_timer)
 when("typing", egg_direction)
 start()
-
 
