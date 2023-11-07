@@ -12,18 +12,18 @@ projectiles of various scales. This is what I envision the project to be
 by the end of phase 3. 
 
 ### Phase 1: Figuring things out
- - Creating the character
- - Setting character movement (with arrow keys)
- - Creating a timer
- - Determining how many levels I need (Currently: 5)
- - Creating a Level
+ - [ ] Creating the character
+ - [ ] Setting character movement (with arrow keys)
+ - [ ] Creating a timer
+ - [ ] Determining how many levels I need (Currently: 5)
+ - [ ] Creating a Level
    - Creating obstacle
      - Decide where obstacle spawns
      - Size of obstacle
      - Speed of obstacle
      - Direction of obstacle
      - Obstacle - wall interactions
-   - Creating collision interactions between objects and character
+   - [ ] Creating collision interactions between objects and character
      - Lose screen
 
 ### Phase 2: "Scaling" Up
