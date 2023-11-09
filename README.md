@@ -16,15 +16,15 @@ by the end of phase 3.
  - [x] Setting character movement (with arrow keys)
  - [x] Creating a timer
  - [x] Determining how many levels I need (Currently: 5)
- - [ ] Creating a Level
+ - [x] Creating a Level
    - Creating obstacle
-     - [ ] Decide where obstacle spawns
-     - [ ] Size of obstacle
-     - [ ] Speed of obstacle
-     - [ ] Direction of obstacle
-     - [ ] Obstacle - wall interactions
-   - [ ] Creating collision interactions between objects and character
-     - [ ] Lose screen
+     - [x] Decide where obstacle spawns
+     - [x] Size of obstacle
+     - [x] Speed of obstacle
+     - [x] Direction of obstacle
+     - [x] Obstacle - wall interactions
+   - [x] Creating collision interactions between objects and character
+     - [x] Lose screen
 
 ### Phase 2: "Scaling" Up
  - [ ] Repeating steps under creating a level (4 times)
