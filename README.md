@@ -25,6 +25,7 @@ by the end of phase 3.
      - [x] Obstacle - wall interactions
    - [x] Creating collision interactions between objects and character
      - [x] Lose screen
+ - Phase 1 demo video: https://youtu.be/uwTAgwr3yCs
 
 ### Phase 2: "Scaling" Up
  - [ ] Repeating steps under creating a level (4 times)
