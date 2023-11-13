@@ -14,13 +14,14 @@ class World:
     egg_speedy: int
     game_time: DesignerObject
     game_time_value: int
+    frame_timer: int
     obstacle1_list: [Obstacle]
     obstacle1_properties: Obstacle
 
 def create_world() -> World:
     "Creating World"
     return World(create_egg(), 0, 0,
-                 text("black", "Time: ", 24, get_width() / 2, 20), 0,
+                 text("black", "Time: ", 24, get_width() / 2, 20), 0, 0,
                  [], None)
 
 def create_egg() -> DesignerObject:
@@ -37,7 +38,9 @@ def create_timer(world: World):
 
 def increase_timer(world: World):
     "Increase an in-game timer that increases over time"
-    world.game_time_value += 1
+    world.frame_timer += 1
+    if world.frame_timer % 30 == 0:
+        world.game_time_value += 1
 
 
 def move_egg(world: World):
@@ -94,25 +97,25 @@ def egg_wall(world: World):
 
 def create_obstacles1(world: World):
     "Obstacle from time 0 - 500"
-    if world.game_time_value == 1:
+    if world.frame_timer == 1:
         microbe = emoji("microbe")
         obstacle1_1 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_1.obstacle_itself.x = 0
         obstacle1_1.obstacle_itself.y = get_height() / 5
         world.obstacle1_list.append(obstacle1_1)
-    if world.game_time_value == 100:
+    if world.frame_timer == 300:
         microbe = emoji("microbe")
         obstacle1_2 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_2.obstacle_itself.x = 0
         obstacle1_2.obstacle_itself.y = (get_height() * 2) / 5
         world.obstacle1_list.append(obstacle1_2)
-    if world.game_time_value == 200:
+    if world.frame_timer == 600:
         microbe = emoji("microbe")
         obstacle1_3 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_3.obstacle_itself.x = 0
         obstacle1_3.obstacle_itself.y = (get_height() * 3) / 5
         world.obstacle1_list.append(obstacle1_3)
-    if world.game_time_value == 300:
+    if world.frame_timer == 900:
         microbe = emoji("microbe")
         obstacle1_4 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_4.obstacle_itself.x = 0
@@ -131,13 +134,17 @@ def obstacle1_wall(world: World):
             obstacle.obstacle_speed = -OBSTACLE1_SPEED
         if obstacle.obstacle_itself.x < 0:
             obstacle.obstacle_speed = OBSTACLE1_SPEED
+def destroy_obstacles1(world: World):
+    if world.game_time_value == 60:
+        world.obstacle1_list.pop()
 
 def egg_hits_obstacle(world: World) -> bool:
     "determines whether one loses the game"
     has_collision_happened = False
     for obstacle in world.obstacle1_list:
-        if obstacle.obstacle_itself.x == world.egg.x and obstacle.obstacle_itself.y == world.egg.y:
-            has_collision_happened = True
+        if obstacle.obstacle_itself.x < (world.egg.x + 20) and obstacle.obstacle_itself.x > (world.egg.x - 20):
+            if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
+                has_collision_happened = True
     return has_collision_happened
 
 def game_over(world: World):
