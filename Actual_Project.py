@@ -17,12 +17,14 @@ class World:
     frame_timer: int
     obstacle1_list: [Obstacle]
     obstacle1_properties: Obstacle
+    delete_obstacles: bool
+    delete_list: list[Obstacle]
 
 def create_world() -> World:
     "Creating World"
     return World(create_egg(), 0, 0,
                  text("black", "Time: ", 24, get_width() / 2, 20), 0, 0,
-                 [], None)
+                 [], None, False, [])
 
 def create_egg() -> DesignerObject:
     "Create the Egg"
@@ -134,9 +136,25 @@ def obstacle1_wall(world: World):
             obstacle.obstacle_speed = -OBSTACLE1_SPEED
         if obstacle.obstacle_itself.x < 0:
             obstacle.obstacle_speed = OBSTACLE1_SPEED
-def destroy_obstacles1(world: World):
-    if world.game_time_value == 60:
-        world.obstacle1_list.pop()
+
+def obstacle1_end(world: World):
+    if world.game_time_value >= 10:
+        for obstacle in world.obstacle1_list:
+            world.delete_list.append(obstacle)
+
+
+#///////////////////end of obstacle 1/////////////////////////////
+def destroy_obstacles_trigger(world: World):
+    "turns on/off the destroy_obstacles function"
+    if world.delete_list:
+        world.delete_obstacles = True
+    if not world.delete_list:
+        world.delete_obstacles = False
+    return world.delete_obstacles
+
+def destroy_obstacles(world: World):
+    for obstacle in world.delete_list:
+        destroy(obstacle.obstacle_itself)
 
 def egg_hits_obstacle(world: World) -> bool:
     "determines whether one loses the game"
@@ -146,6 +164,7 @@ def egg_hits_obstacle(world: World) -> bool:
             if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
                 has_collision_happened = True
     return has_collision_happened
+
 
 def game_over(world: World):
     "shows game over message"
@@ -160,7 +179,10 @@ when("updating", increase_timer)
 when("updating", create_obstacles1)
 when("updating", obstacle1_movement)
 when("updating", obstacle1_wall)
+when("updating", obstacle1_end)
+when("updating", destroy_obstacles_trigger)
 when("typing", egg_direction)
 when(egg_hits_obstacle, game_over, pause)
+when(destroy_obstacles_trigger, destroy_obstacles)
 start()
 
