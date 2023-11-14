@@ -170,13 +170,13 @@ def create_obstacles2(world: World):
         obstacle2_2.obstacle_itself.x = (get_width() * 2) / 5
         obstacle2_2.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_2)
-    if world.game_time_value == 2130:
+    if world.frame_timer == 2130:
         frisbee = emoji("🥏")
         obstacle2_3 = Obstacle(frisbee, OBSTACLE2_SPEED)
         obstacle2_3.obstacle_itself.x = (get_width() * 3) / 5
         obstacle2_3.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_3)
-    if world.game_time_value == 2280:
+    if world.frame_timer == 2280:
         frisbee = emoji("🥏")
         obstacle2_4 = Obstacle(frisbee, OBSTACLE2_SPEED)
         obstacle2_4.obstacle_itself.x = (get_width() * 4) / 5
