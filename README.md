@@ -29,11 +29,11 @@ by the end of phase 3.
 
 ### Phase 2: "Scaling" Up
  - [ ] Repeating steps under creating a level (4 times)
-   - [ ] Level 2
-   - [ ] Level 3
+   - [x] Level 2
+   - [x] Level 3
    - [ ] Level 4
    - [ ] Level 5
- - [ ] Connecting levels together (want to use the timer)
+ - [x] Connecting levels together (want to use the timer)
 
 ### Phase 3: Tidying Up
  - [ ] Creating win screen

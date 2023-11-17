@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 OBSTACLE1_SPEED = 3
 OBSTACLE2_SPEED = 5
+OBSTACLE3_SPEED = 1
 
 @dataclass
 class Obstacle:
@@ -19,6 +20,7 @@ class World:
     frame_timer: int
     obstacle1_list: [Obstacle]
     obstacle2_list: [Obstacle]
+    obstacle3_list: [Obstacle]
 
 def create_world() -> World:
     "Creating World"
@@ -29,6 +31,7 @@ def create_world() -> World:
                  0,
                  text("black", "", 24, 50 , 20),
                  0,
+                 [],
                  [],
                  []
                  )
@@ -112,19 +115,19 @@ def create_obstacles1(world: World):
         obstacle1_1.obstacle_itself.x = 0
         obstacle1_1.obstacle_itself.y = get_height() / 5
         world.obstacle1_list.append(obstacle1_1)
-    if world.frame_timer == 300:
+    if world.frame_timer == 150:
         microbe = emoji("microbe")
         obstacle1_2 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_2.obstacle_itself.x = 0
         obstacle1_2.obstacle_itself.y = (get_height() * 2) / 5
         world.obstacle1_list.append(obstacle1_2)
-    if world.frame_timer == 600:
+    if world.frame_timer == 300:
         microbe = emoji("microbe")
         obstacle1_3 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_3.obstacle_itself.x = 0
         obstacle1_3.obstacle_itself.y = (get_height() * 3) / 5
         world.obstacle1_list.append(obstacle1_3)
-    if world.frame_timer == 900:
+    if world.frame_timer == 450:
         microbe = emoji("microbe")
         obstacle1_4 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_4.obstacle_itself.x = 0
@@ -153,30 +156,30 @@ def obstacle1_wall(world: World):
 #///////////////////obstacle 2///////////////////////////////////
 def level_two_title (world: World):
     "creating title for level 2"
-    if world.game_time_value == 60:
+    if world.game_time_value == 30:
         world.level_title.text = "Level 2"
 
 def create_obstacles2(world: World):
     "creating obstacles for level 2"
-    if world.frame_timer == 1830:
+    if world.frame_timer == 1050:
         frisbee = emoji("🥏")
         obstacle2_1 = Obstacle(frisbee, OBSTACLE2_SPEED)
         obstacle2_1.obstacle_itself.x = get_width() / 5
         obstacle2_1.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_1)
-    if world.frame_timer == 1980:
+    if world.frame_timer == 1200:
         frisbee = emoji("🥏")
         obstacle2_2 = Obstacle(frisbee, OBSTACLE2_SPEED)
         obstacle2_2.obstacle_itself.x = (get_width() * 2) / 5
         obstacle2_2.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_2)
-    if world.frame_timer == 2130:
+    if world.frame_timer == 1350:
         frisbee = emoji("🥏")
         obstacle2_3 = Obstacle(frisbee, OBSTACLE2_SPEED)
         obstacle2_3.obstacle_itself.x = (get_width() * 3) / 5
         obstacle2_3.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_3)
-    if world.frame_timer == 2280:
+    if world.frame_timer == 1500:
         frisbee = emoji("🥏")
         obstacle2_4 = Obstacle(frisbee, OBSTACLE2_SPEED)
         obstacle2_4.obstacle_itself.x = (get_width() * 4) / 5
@@ -195,8 +198,49 @@ def obstacle2_wall(world: World):
         if obstacle.obstacle_itself.y < 0:
             obstacle.obstacle_speed = OBSTACLE2_SPEED
 #//////////////////end of obstacle 2////////////////////////////
+#/////////////////start of obstacle 3///////////////////////////
+def level_three_title (world: World):
+    "creating title for level 3"
+    if world.game_time_value == 60:
+        world.level_title.text = "Level 3"
 
+def create_obstacle3(world: World):
+    "creating obstacle for level 3"
+    if world.frame_timer == 1950:
+        plane = emoji("airplane")
+        obstacle3_1 = Obstacle(plane, OBSTACLE3_SPEED)
+        obstacle3_1.obstacle_itself.x = 0
+        obstacle3_1.obstacle_itself.y = 0
+        world.obstacle3_list.append(obstacle3_1)
 
+def obstacle3_movement(world: World):
+    "movement for obstacle 3, want to make it home towards character"
+    for obstacle in world.obstacle3_list:
+        if world.egg.x > obstacle.obstacle_itself.x:
+            if world.egg.y > obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.x += OBSTACLE3_SPEED
+                obstacle.obstacle_itself.y += OBSTACLE3_SPEED
+            if world.egg.y < obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.x += OBSTACLE3_SPEED
+                obstacle.obstacle_itself.y -= OBSTACLE3_SPEED
+            else:
+                obstacle.obstacle_itself.x += OBSTACLE3_SPEED
+        elif world.egg.x < obstacle.obstacle_itself.x:
+            if world.egg.y > obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.x -= OBSTACLE3_SPEED
+                obstacle.obstacle_itself.y += OBSTACLE3_SPEED
+            if world.egg.y < obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.x -= OBSTACLE3_SPEED
+                obstacle.obstacle_itself.y -= OBSTACLE3_SPEED
+            else:
+                obstacle.obstacle_itself.x -= OBSTACLE3_SPEED
+        else:
+            if world.egg.y > obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.y += OBSTACLE3_SPEED
+            if world.egg.y < obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.y -= OBSTACLE3_SPEED
+
+#/////////////////end of obstacle 3////////////////////////////
 def egg_hits_obstacle(world: World) -> bool:
     "determines whether one loses the game"
     has_collision_happened = False
@@ -205,6 +249,10 @@ def egg_hits_obstacle(world: World) -> bool:
             if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
                 has_collision_happened = True
     for obstacle in world.obstacle2_list:
+        if obstacle.obstacle_itself.x < (world.egg.x + 20) and obstacle.obstacle_itself.x > (world.egg.x - 20):
+            if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
+                has_collision_happened = True
+    for obstacle in world.obstacle3_list:
         if obstacle.obstacle_itself.x < (world.egg.x + 20) and obstacle.obstacle_itself.x > (world.egg.x - 20):
             if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
                 has_collision_happened = True
@@ -229,6 +277,9 @@ when("updating", level_two_title)
 when("updating", create_obstacles2)
 when("updating", obstacle2_movement)
 when("updating", obstacle2_wall)
+when("updating", level_three_title)
+when("updating", create_obstacle3)
+when("updating", obstacle3_movement)
 when("typing", egg_direction)
 when(egg_hits_obstacle, game_over, pause)
 start()
