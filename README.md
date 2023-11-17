@@ -5,8 +5,8 @@ qijia@udel.edu
 
 Following the theme of SCALE, I will be attempting to create
 a survival game, in which the player will have to control their 
-character and dodge all the projectiles and obstacles for 60 seconds. 
-After successfully staying safe for 60 seconds, the player will move on
+character and dodge all the projectiles and obstacles for 30 seconds. 
+After successfully staying safe for 30 seconds, the player will move on
 to different levels, in which they will be dodging obstacles and 
 projectiles of various scales. This is what I envision the project to be
 by the end of phase 3. 
