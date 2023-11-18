@@ -4,6 +4,7 @@ from dataclasses import dataclass
 OBSTACLE1_SPEED = 3
 OBSTACLE2_SPEED = 5
 OBSTACLE3_SPEED = 1
+OBSTACLE4_SPEED = 3
 
 @dataclass
 class Obstacle:
@@ -21,6 +22,7 @@ class World:
     obstacle1_list: [Obstacle]
     obstacle2_list: [Obstacle]
     obstacle3_list: [Obstacle]
+    obstacle4_list: [Obstacle]
 
 def create_world() -> World:
     "Creating World"
@@ -31,6 +33,7 @@ def create_world() -> World:
                  0,
                  text("black", "", 24, 50 , 20),
                  0,
+                 [],
                  [],
                  [],
                  []
@@ -241,6 +244,54 @@ def obstacle3_movement(world: World):
                 obstacle.obstacle_itself.y -= OBSTACLE3_SPEED
 
 #/////////////////end of obstacle 3////////////////////////////
+#/////////////////obstacle 4//////////////////////////////////
+def level_four_title (world: World):
+    "creating title for level 4"
+    if world.game_time_value == 90:
+        world.level_title.text = ("Level 4")
+
+def create_obstacle4(world: World):
+    "creating obstacles for level 4"
+    if world.frame_timer == 2850:
+        satellite = emoji("satellite")
+        obstacle4_1 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_1.obstacle_itself.x = 50
+        obstacle4_1.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_1)
+    if world.frame_timer == 3000:
+        satellite = emoji("satellite")
+        obstacle4_2 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_2.obstacle_itself.x = 50
+        obstacle4_2.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_2)
+    if world.frame_timer == 3150:
+        satellite = emoji("satellite")
+        obstacle4_3 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_3.obstacle_itself.x = 50
+        obstacle4_3.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_3)
+    if world.frame_timer == 3300:
+        satellite = emoji("satellite")
+        obstacle4_4 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_4.obstacle_itself.x = 50
+        obstacle4_4.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_4)
+
+def obstacle4_horz_movement(world: World):
+    for obstacle in world.obstacle4_list:
+        if obstacle.obstacle_itself.y == 20:
+            obstacle.obstacle_itself.x -= OBSTACLE4_SPEED
+        if obstacle.obstacle_itself.y == get_height() - 20:
+            obstacle.obstacle_itself.x += OBSTACLE4_SPEED
+
+def obstacle4_vert_movement(world: World):
+    for obstacle in world.obstacle4_list:
+        if obstacle.obstacle_itself.x == 50:
+            obstacle.obstacle_itself.y -= OBSTACLE4_SPEED
+        if obstacle.obstacle_itself.x == get_width() - 50:
+            obstacle.obstacle_itself.y += OBSTACLE4_SPEED
+
+#/////////////////end of obstacle 4//////////////////////////
 def egg_hits_obstacle(world: World) -> bool:
     "determines whether one loses the game"
     has_collision_happened = False
@@ -253,6 +304,10 @@ def egg_hits_obstacle(world: World) -> bool:
             if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
                 has_collision_happened = True
     for obstacle in world.obstacle3_list:
+        if obstacle.obstacle_itself.x < (world.egg.x + 20) and obstacle.obstacle_itself.x > (world.egg.x - 20):
+            if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
+                has_collision_happened = True
+    for obstacle in world.obstacle4_list:
         if obstacle.obstacle_itself.x < (world.egg.x + 20) and obstacle.obstacle_itself.x > (world.egg.x - 20):
             if obstacle.obstacle_itself.y < (world.egg.y + 20) and obstacle.obstacle_itself.y > (world.egg.y - 20):
                 has_collision_happened = True
@@ -280,6 +335,10 @@ when("updating", obstacle2_wall)
 when("updating", level_three_title)
 when("updating", create_obstacle3)
 when("updating", obstacle3_movement)
+when("updating", level_four_title)
+when("updating", create_obstacle4)
+when("updating", obstacle4_horz_movement)
+when("updating", obstacle4_vert_movement)
 when("typing", egg_direction)
 when(egg_hits_obstacle, game_over, pause)
 start()
