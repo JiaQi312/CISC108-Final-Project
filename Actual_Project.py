@@ -4,7 +4,7 @@ from dataclasses import dataclass
 OBSTACLE1_SPEED = 3
 OBSTACLE2_SPEED = 5
 OBSTACLE3_SPEED = 1
-OBSTACLE4_SPEED = 3
+OBSTACLE4_SPEED = 2
 
 @dataclass
 class Obstacle:
@@ -255,41 +255,91 @@ def create_obstacle4(world: World):
     if world.frame_timer == 2850:
         satellite = emoji("satellite")
         obstacle4_1 = Obstacle(satellite, OBSTACLE4_SPEED)
-        obstacle4_1.obstacle_itself.x = 50
+        obstacle4_1.obstacle_itself.x = 20
         obstacle4_1.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_1)
     if world.frame_timer == 3000:
         satellite = emoji("satellite")
         obstacle4_2 = Obstacle(satellite, OBSTACLE4_SPEED)
-        obstacle4_2.obstacle_itself.x = 50
+        obstacle4_2.obstacle_itself.x = 20
         obstacle4_2.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_2)
     if world.frame_timer == 3150:
         satellite = emoji("satellite")
         obstacle4_3 = Obstacle(satellite, OBSTACLE4_SPEED)
-        obstacle4_3.obstacle_itself.x = 50
+        obstacle4_3.obstacle_itself.x = 20
         obstacle4_3.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_3)
     if world.frame_timer == 3300:
         satellite = emoji("satellite")
         obstacle4_4 = Obstacle(satellite, OBSTACLE4_SPEED)
-        obstacle4_4.obstacle_itself.x = 50
+        obstacle4_4.obstacle_itself.x = 20
         obstacle4_4.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_4)
+    if world.frame_timer == 3450:
+        satellite = emoji("satellite")
+        obstacle4_5 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_5.obstacle_itself.x = 20
+        obstacle4_5.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_5)
+    if world.frame_timer == 3600:
+        satellite = emoji("satellite")
+        obstacle4_6 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_6.obstacle_itself.x = 20
+        obstacle4_6.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_6)
+    if world.frame_timer == 3750:
+        satellite = emoji("satellite")
+        obstacle4_7 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_7.obstacle_itself.x = 20
+        obstacle4_7.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_7)
+    if world.frame_timer == 3900:
+        satellite = emoji("satellite")
+        obstacle4_8 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_8.obstacle_itself.x = 20
+        obstacle4_8.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_8)
+    if world.frame_timer == 4050:
+        satellite = emoji("satellite")
+        obstacle4_9 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_9.obstacle_itself.x = 20
+        obstacle4_9.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_9)
+    if world.frame_timer == 3450:
+        satellite = emoji("satellite")
+        obstacle4_10 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_10.obstacle_itself.x = 20
+        obstacle4_10.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_10)
+    if world.frame_timer == 3450:
+        satellite = emoji("satellite")
+        obstacle4_11 = Obstacle(satellite, OBSTACLE4_SPEED)
+        obstacle4_11.obstacle_itself.x = 20
+        obstacle4_11.obstacle_itself.y = 20
+        world.obstacle4_list.append(obstacle4_11)
 
 def obstacle4_horz_movement(world: World):
     for obstacle in world.obstacle4_list:
-        if obstacle.obstacle_itself.y == 20:
-            obstacle.obstacle_itself.x -= OBSTACLE4_SPEED
         if obstacle.obstacle_itself.y == get_height() - 20:
+            if obstacle.obstacle_itself.x == get_width() - 20:
+                obstacle.obstacle_itself.y -= OBSTACLE4_SPEED
             obstacle.obstacle_itself.x += OBSTACLE4_SPEED
+        if obstacle.obstacle_itself.y == 20:
+            if obstacle.obstacle_itself.x == 20:
+                obstacle.obstacle_itself.y += OBSTACLE4_SPEED
+            obstacle.obstacle_itself.x -= OBSTACLE4_SPEED
 
 def obstacle4_vert_movement(world: World):
     for obstacle in world.obstacle4_list:
-        if obstacle.obstacle_itself.x == 50:
-            obstacle.obstacle_itself.y -= OBSTACLE4_SPEED
-        if obstacle.obstacle_itself.x == get_width() - 50:
+        if obstacle.obstacle_itself.x == 20:
+            if obstacle.obstacle_itself.y == get_height() - 20:
+                obstacle.obstacle_itself.x += OBSTACLE4_SPEED
             obstacle.obstacle_itself.y += OBSTACLE4_SPEED
+        if obstacle.obstacle_itself.x == get_width() - 20:
+            if obstacle.obstacle_itself.y == 20:
+                obstacle.obstacle_itself.x -= OBSTACLE4_SPEED
+            obstacle.obstacle_itself.y -= OBSTACLE4_SPEED
 
 #/////////////////end of obstacle 4//////////////////////////
 def egg_hits_obstacle(world: World) -> bool:
@@ -337,9 +387,8 @@ when("updating", create_obstacle3)
 when("updating", obstacle3_movement)
 when("updating", level_four_title)
 when("updating", create_obstacle4)
-when("updating", obstacle4_horz_movement)
 when("updating", obstacle4_vert_movement)
+when("updating", obstacle4_horz_movement)
 when("typing", egg_direction)
 when(egg_hits_obstacle, game_over, pause)
 start()
-

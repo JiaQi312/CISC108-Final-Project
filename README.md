@@ -31,7 +31,7 @@ by the end of phase 3.
  - [ ] Repeating steps under creating a level (4 times)
    - [x] Level 2
    - [x] Level 3
-   - [ ] Level 4
+   - [x] Level 4
    - [ ] Level 5
  - [x] Connecting levels together (want to use the timer)
 
