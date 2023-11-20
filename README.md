@@ -28,12 +28,13 @@ by the end of phase 3.
  - Phase 1 demo video: https://youtu.be/uwTAgwr3yCs
 
 ### Phase 2: "Scaling" Up
- - [ ] Repeating steps under creating a level (4 times)
+ - [x] Repeating steps under creating a level (4 times)
    - [x] Level 2
    - [x] Level 3
    - [x] Level 4
-   - [ ] Level 5
+   - [x] Level 5
  - [x] Connecting levels together (want to use the timer)
+ - Phase 2 demo video: https://youtu.be/875U5ALf2lc
 
 ### Phase 3: Tidying Up
  - [ ] Creating win screen

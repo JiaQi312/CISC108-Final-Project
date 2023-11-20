@@ -221,27 +221,27 @@ def obstacle3_movement(world: World):
     for obstacle in world.obstacle3_list:
         if world.egg.x > obstacle.obstacle_itself.x:
             if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += OBSTACLE3_SPEED
-                obstacle.obstacle_itself.y += OBSTACLE3_SPEED
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed
+                obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += OBSTACLE3_SPEED
-                obstacle.obstacle_itself.y -= OBSTACLE3_SPEED
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
             else:
-                obstacle.obstacle_itself.x += OBSTACLE3_SPEED
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed
         elif world.egg.x < obstacle.obstacle_itself.x:
             if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x -= OBSTACLE3_SPEED
-                obstacle.obstacle_itself.y += OBSTACLE3_SPEED
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x -= OBSTACLE3_SPEED
-                obstacle.obstacle_itself.y -= OBSTACLE3_SPEED
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
             else:
-                obstacle.obstacle_itself.x -= OBSTACLE3_SPEED
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
         else:
             if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y += OBSTACLE3_SPEED
+                obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y -= OBSTACLE3_SPEED
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
 
 #/////////////////end of obstacle 3////////////////////////////
 #/////////////////obstacle 4//////////////////////////////////
@@ -323,25 +323,43 @@ def obstacle4_horz_movement(world: World):
     for obstacle in world.obstacle4_list:
         if obstacle.obstacle_itself.y == get_height() - 20:
             if obstacle.obstacle_itself.x == get_width() - 20:
-                obstacle.obstacle_itself.y -= OBSTACLE4_SPEED
-            obstacle.obstacle_itself.x += OBSTACLE4_SPEED
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
+            obstacle.obstacle_itself.x += obstacle.obstacle_speed
         if obstacle.obstacle_itself.y == 20:
             if obstacle.obstacle_itself.x == 20:
-                obstacle.obstacle_itself.y += OBSTACLE4_SPEED
-            obstacle.obstacle_itself.x -= OBSTACLE4_SPEED
+                obstacle.obstacle_itself.y += obstacle.obstacle_speed
+            obstacle.obstacle_itself.x -= obstacle.obstacle_speed
 
 def obstacle4_vert_movement(world: World):
     for obstacle in world.obstacle4_list:
         if obstacle.obstacle_itself.x == 20:
             if obstacle.obstacle_itself.y == get_height() - 20:
-                obstacle.obstacle_itself.x += OBSTACLE4_SPEED
-            obstacle.obstacle_itself.y += OBSTACLE4_SPEED
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed
+            obstacle.obstacle_itself.y += obstacle.obstacle_speed
         if obstacle.obstacle_itself.x == get_width() - 20:
             if obstacle.obstacle_itself.y == 20:
-                obstacle.obstacle_itself.x -= OBSTACLE4_SPEED
-            obstacle.obstacle_itself.y -= OBSTACLE4_SPEED
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
+            obstacle.obstacle_itself.y -= obstacle.obstacle_speed
 
 #/////////////////end of obstacle 4//////////////////////////
+#////////////////level 5/////////////////////////////////////
+def level_five_title (world: World):
+    "creating title for level 5"
+    if world.game_time_value == 150:
+        world.level_title.text = ("Level 5")
+
+def level_five (world: World):
+    if world.frame_timer == 4500:
+        for obstacle in world.obstacle1_list:
+            obstacle.obstacle_speed += 2
+        for obstacle in world.obstacle2_list:
+            obstacle.obstacle_speed += 2
+        for obstacle in world.obstacle3_list:
+            obstacle.obstacle_speed += 1
+        for obstacle in world.obstacle4_list:
+            obstacle.obstacle_speed += 2
+
+#////////////////end of level 5/////////////////////////////
 def egg_hits_obstacle(world: World) -> bool:
     "determines whether one loses the game"
     has_collision_happened = False
@@ -389,6 +407,8 @@ when("updating", level_four_title)
 when("updating", create_obstacle4)
 when("updating", obstacle4_vert_movement)
 when("updating", obstacle4_horz_movement)
+when("updating", level_five_title)
+when("updating", level_five)
 when("typing", egg_direction)
 when(egg_hits_obstacle, game_over, pause)
 start()
