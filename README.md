@@ -37,8 +37,8 @@ by the end of phase 3.
  - Phase 2 demo video: https://youtu.be/875U5ALf2lc
 
 ### Phase 3: Tidying Up
- - [ ] Creating win screen
- - [ ] Limiting number of items on screen
+ - [x] Creating win screen
+ - [x] Limiting number of items on screen (not needed)
  - [ ] Consider adding additional features
    - [ ] Powerups
    - [ ] More characters
