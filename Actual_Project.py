@@ -380,7 +380,7 @@ def level_five_title(world: World):
 
 def level_five(world: World):
     """speeding obstacles up"""
-    if world.frame_timer > 4200:
+    if world.frame_timer == 4200:
         for obstacle in world.obstacle1_list:
             obstacle.obstacle_speed += 2
         for obstacle in world.obstacle2_list:
