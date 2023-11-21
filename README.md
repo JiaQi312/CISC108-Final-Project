@@ -56,8 +56,8 @@ phase and wins the game by reaching the end.
 
 ### Phase 3: Tidying Up
  - [x] Creating win screen
- - [ ] Fixing scales and locations of obstacles in game
- - [ ] Tidying up look of game
+ - [x] Fixing scales and locations of obstacles in game
+ - [x] Tidying up look of game
  - Consider adding additional features (powerups, more characters, etc.)
    - Created:
      - [ ]

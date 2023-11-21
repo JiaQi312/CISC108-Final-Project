@@ -4,8 +4,8 @@ from dataclasses import dataclass
 OBSTACLE1_SPEED = 3
 OBSTACLE2_SPEED = 5
 OBSTACLE3_SPEED = 1
-OBSTACLE4_SPEED = 2
-OBSTACLE6_SPEED = 7
+OBSTACLE4_SPEED = 5
+OBSTACLE6_SPEED = 0
 
 
 @dataclass
@@ -125,30 +125,24 @@ def egg_wall(world: World):
 
 def create_obstacles1(world: World):
     """Obstacle from frame_time 0 - 900"""
-    if world.frame_timer == 1:
+    if world.frame_timer == 150:
         microbe = emoji("microbe")
         obstacle1_1 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_1.obstacle_itself.x = 0
-        obstacle1_1.obstacle_itself.y = get_height() / 5
+        obstacle1_1.obstacle_itself.y = get_height() / 4
         world.obstacle1_list.append(obstacle1_1)
-    if world.frame_timer == 150:
+    if world.frame_timer == 300:
         microbe = emoji("microbe")
         obstacle1_2 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_2.obstacle_itself.x = 0
-        obstacle1_2.obstacle_itself.y = (get_height() * 2) / 5
+        obstacle1_2.obstacle_itself.y = (get_height() * 2) / 4
         world.obstacle1_list.append(obstacle1_2)
-    if world.frame_timer == 300:
+    if world.frame_timer == 450:
         microbe = emoji("microbe")
         obstacle1_3 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_3.obstacle_itself.x = 0
-        obstacle1_3.obstacle_itself.y = (get_height() * 3) / 5
+        obstacle1_3.obstacle_itself.y = (get_height() * 3) / 4
         world.obstacle1_list.append(obstacle1_3)
-    if world.frame_timer == 450:
-        microbe = emoji("microbe")
-        obstacle1_4 = Obstacle(microbe, OBSTACLE1_SPEED)
-        obstacle1_4.obstacle_itself.x = 0
-        obstacle1_4.obstacle_itself.y = (get_height() * 4) / 5
-        world.obstacle1_list.append(obstacle1_4)
 
 
 def level_one_title(world: World):
@@ -245,6 +239,8 @@ def create_obstacle3(world: World):
     """creating obstacle for level 3"""
     if world.frame_timer == 1950:
         plane = emoji("airplane")
+        plane.scale_y = 3
+        plane.scale_x = 3
         obstacle3_1 = Obstacle(plane, OBSTACLE3_SPEED)
         obstacle3_1.obstacle_itself.x = 0
         obstacle3_1.obstacle_itself.y = 0
@@ -260,23 +256,23 @@ def obstacle3_movement(world: World):
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.egg.y < obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.x += obstacle.obstacle_speed
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.y += -obstacle.obstacle_speed
             else:
-                obstacle.obstacle_itself.x += obstacle.obstacle_speed
+                obstacle.obstacle_itself.x += (obstacle.obstacle_speed * 1.5)
         elif world.egg.x < obstacle.obstacle_itself.x:
             if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.x += -obstacle.obstacle_speed
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.x += -obstacle.obstacle_speed
+                obstacle.obstacle_itself.y += -obstacle.obstacle_speed
             else:
-                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.x += -(obstacle.obstacle_speed * 1.5)
         else:
             if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y += obstacle.obstacle_speed
+                obstacle.obstacle_itself.y += (obstacle.obstacle_speed * 1.5)
             if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.y += -(obstacle.obstacle_speed * 1.5)
 
 
 # /////////////////end of obstacle 3////////////////////////////
@@ -292,65 +288,60 @@ def create_obstacle4(world: World):
     """creating obstacles for level 4"""
     if world.frame_timer == 2850:
         satellite = emoji("satellite")
+        satellite.scale_y = 3
+        satellite.scale_x = 3
         obstacle4_1 = Obstacle(satellite, OBSTACLE4_SPEED)
         obstacle4_1.obstacle_itself.x = 20
         obstacle4_1.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_1)
     if world.frame_timer == 3000:
         satellite = emoji("satellite")
+        satellite.scale_y = 3
+        satellite.scale_x = 3
         obstacle4_2 = Obstacle(satellite, OBSTACLE4_SPEED)
         obstacle4_2.obstacle_itself.x = 20
         obstacle4_2.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_2)
     if world.frame_timer == 3150:
         satellite = emoji("satellite")
+        satellite.scale_y = 3
+        satellite.scale_x = 3
         obstacle4_3 = Obstacle(satellite, OBSTACLE4_SPEED)
         obstacle4_3.obstacle_itself.x = 20
         obstacle4_3.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_3)
     if world.frame_timer == 3300:
         satellite = emoji("satellite")
+        satellite.scale_y = 3
+        satellite.scale_x = 3
         obstacle4_4 = Obstacle(satellite, OBSTACLE4_SPEED)
         obstacle4_4.obstacle_itself.x = 20
         obstacle4_4.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_4)
     if world.frame_timer == 3450:
         satellite = emoji("satellite")
+        satellite.scale_y = 3
+        satellite.scale_x = 3
         obstacle4_5 = Obstacle(satellite, OBSTACLE4_SPEED)
         obstacle4_5.obstacle_itself.x = 20
         obstacle4_5.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_5)
     if world.frame_timer == 3600:
         satellite = emoji("satellite")
+        satellite.scale_y = 3
+        satellite.scale_x = 3
         obstacle4_6 = Obstacle(satellite, OBSTACLE4_SPEED)
         obstacle4_6.obstacle_itself.x = 20
         obstacle4_6.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_6)
     if world.frame_timer == 3750:
         satellite = emoji("satellite")
+        satellite.scale_y = 3
+        satellite.scale_x = 3
         obstacle4_7 = Obstacle(satellite, OBSTACLE4_SPEED)
         obstacle4_7.obstacle_itself.x = 20
         obstacle4_7.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_7)
-    if world.frame_timer == 3900:
-        satellite = emoji("satellite")
-        obstacle4_8 = Obstacle(satellite, OBSTACLE4_SPEED)
-        obstacle4_8.obstacle_itself.x = 20
-        obstacle4_8.obstacle_itself.y = 20
-        world.obstacle4_list.append(obstacle4_8)
-    if world.frame_timer == 4050:
-        satellite = emoji("satellite")
-        obstacle4_9 = Obstacle(satellite, OBSTACLE4_SPEED)
-        obstacle4_9.obstacle_itself.x = 20
-        obstacle4_9.obstacle_itself.y = 20
-        world.obstacle4_list.append(obstacle4_9)
-    if world.frame_timer == 4200:
-        satellite = emoji("satellite")
-        obstacle4_10 = Obstacle(satellite, OBSTACLE4_SPEED)
-        obstacle4_10.obstacle_itself.x = 20
-        obstacle4_10.obstacle_itself.y = 20
-        world.obstacle4_list.append(obstacle4_10)
-
 
 def obstacle4_horz_movement(world: World):
     """defining horizontal movement for obstacle 4"""
@@ -383,19 +374,19 @@ def obstacle4_vert_movement(world: World):
 # ////////////////level 5/////////////////////////////////////
 def level_five_title(world: World):
     """creating title for level 5"""
-    if world.game_time_value == 150:
+    if world.game_time_value == 140:
         world.level_title.text = "Level 5"
 
 
 def level_five(world: World):
     """speeding obstacles up"""
-    if world.frame_timer == 4500:
+    if world.frame_timer > 4200:
         for obstacle in world.obstacle1_list:
             obstacle.obstacle_speed += 2
         for obstacle in world.obstacle2_list:
             obstacle.obstacle_speed += 2
         for obstacle in world.obstacle3_list:
-            obstacle.obstacle_speed += 1
+            obstacle.obstacle_speed += 0.5
         for obstacle in world.obstacle4_list:
             obstacle.obstacle_speed += 2
 
@@ -405,57 +396,28 @@ def level_five(world: World):
 # ///////////////end screen/////////////////////////////////
 def level_six_title(world: World):
     """creating title for level 6"""
-    if world.frame_timer == 4800:
+    if world.frame_timer == 4500:
         world.level_title.text = "Level 6"
         world.game_time.text = "Reach Saturn!"
 
 
 def create_obstacle6(world: World):
     """creating obstacle 6"""
-    if world.frame_timer == 4800:
+    if world.frame_timer == 4500:
         saturn = emoji("🪐")
-        saturn.scale_x = 3
-        saturn.scale_y = 3
-        obstacle6_1 = Obstacle(saturn, OBSTACLE4_SPEED)
-        obstacle6_1.obstacle_itself.x = 0
-        obstacle6_1.obstacle_itself.y = 0
+        saturn.scale_x = 5
+        saturn.scale_y = 5
+        obstacle6_1 = Obstacle(saturn, OBSTACLE6_SPEED)
+        obstacle6_1.obstacle_itself.x = get_width() / 2
+        obstacle6_1.obstacle_itself.y = get_height() / 2
         world.obstacle6_list.append(obstacle6_1)
-
-
-def obstacle6_movement(world: World):
-    """defining obstacle 6 movement"""
-    for obstacle in world.obstacle6_list:
-        if world.egg.x > obstacle.obstacle_itself.x:
-            if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += obstacle.obstacle_speed
-                obstacle.obstacle_itself.y += obstacle.obstacle_speed
-            if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += obstacle.obstacle_speed
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
-            else:
-                obstacle.obstacle_itself.x += obstacle.obstacle_speed
-        elif world.egg.x < obstacle.obstacle_itself.x:
-            if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
-                obstacle.obstacle_itself.y += obstacle.obstacle_speed
-            if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
-            else:
-                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
-        else:
-            if world.egg.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y += obstacle.obstacle_speed
-            if world.egg.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
-
 
 def egg_hits_saturn(world: World) -> bool:
     """determines whether one wins the game"""
     wins_game = False
     for obstacle in world.obstacle6_list:
-        if (world.egg.x + 30) > obstacle.obstacle_itself.x > (world.egg.x - 30):
-            if (world.egg.y + 30) > obstacle.obstacle_itself.y > (world.egg.y - 30):
+        if (world.egg.x + 50) > obstacle.obstacle_itself.x > (world.egg.x - 50):
+            if (world.egg.y + 50) > obstacle.obstacle_itself.y > (world.egg.y - 50):
                 wins_game = True
     return wins_game
 
@@ -474,16 +436,16 @@ def egg_hits_obstacle(world: World) -> bool:
             if (world.egg.y + 20) > obstacle.obstacle_itself.y > (world.egg.y - 20):
                 is_game_over = True
     for obstacle in world.obstacle2_list:
-        if (world.egg.x + 40) > obstacle.obstacle_itself.x > (world.egg.x - 40):
-            if (world.egg.y + 40) > obstacle.obstacle_itself.y > (world.egg.y - 40):
+        if (world.egg.x + 30) > obstacle.obstacle_itself.x > (world.egg.x - 30):
+            if (world.egg.y + 30) > obstacle.obstacle_itself.y > (world.egg.y - 30):
                 is_game_over = True
     for obstacle in world.obstacle3_list:
-        if (world.egg.x + 20) > obstacle.obstacle_itself.x > (world.egg.x - 20):
-            if (world.egg.y + 20) > obstacle.obstacle_itself.y > (world.egg.y - 20):
+        if (world.egg.x + 50) > obstacle.obstacle_itself.x > (world.egg.x - 50):
+            if (world.egg.y + 50) > obstacle.obstacle_itself.y > (world.egg.y - 50):
                 is_game_over = True
     for obstacle in world.obstacle4_list:
-        if (world.egg.x + 20) > obstacle.obstacle_itself.x > (world.egg.x - 20):
-            if (world.egg.y + 20) > obstacle.obstacle_itself.y > (world.egg.y - 20):
+        if (world.egg.x + 50) > obstacle.obstacle_itself.x > (world.egg.x - 50):
+            if (world.egg.y + 50) > obstacle.obstacle_itself.y > (world.egg.y - 50):
                 is_game_over = True
     return is_game_over
 
@@ -528,7 +490,6 @@ when("updating", level_five)
 # level6
 when("updating", level_six_title)
 when("updating", create_obstacle6)
-when("updating", obstacle6_movement)
 # level6
 when("typing", egg_direction)
 when(egg_hits_saturn, win_screen, pause)
