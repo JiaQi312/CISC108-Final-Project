@@ -1,16 +1,34 @@
 Jia Qi <br>
 qijia@udel.edu
 
-**Project:** Dodging Obstacles: From Bubbles to Planets
+**Project:** Dodging Dangerous Deterrents
 
+Dodging compounding obstacles of various scales, speeds, and sizes
+
+### About
 Following the theme of SCALE, I will be attempting to create
-a survival game, in which the player will have to control their 
-character and dodge all the projectiles and obstacles for 30 seconds. 
-After successfully staying safe for 30 seconds, the player will move on
-to different levels, in which they will be dodging obstacles and 
-projectiles of various scales. This is what I envision the project to be
-by the end of phase 3. 
+a game in which the player will control a character and dodge 
+projectiles and obstacles (of increasing scales) on screen for 30 seconds.
+After successfully staying safe for 30 seconds, the player will move on to 
+different levels, in which additional obstacles will be added on top of the 
+already existing obstacles. This continues until the player reaches the final 
+phase and wins the game by reaching the end. 
 
+### Preview: (will insert video here)
+
+### Instructions:
+ - Dodge the obstacles
+ - Control character with the arrow keys 
+
+### Authors:
+ - Jia Qi (qijia@udel.edu)
+
+### Acknowledgements
+ - These helped A LOT:
+   - Designer Function List
+   - Example Firefighter Game
+
+## Development Progress
 ### Phase 1: Figuring things out
  - [x] Creating the character
  - [x] Setting character movement (with arrow keys)
@@ -38,9 +56,8 @@ by the end of phase 3.
 
 ### Phase 3: Tidying Up
  - [x] Creating win screen
- - [x] Limiting number of items on screen (not needed)
- - [ ] Consider adding additional features
-   - [ ] Powerups
-   - [ ] More characters
-   - [ ] Special levels
+ - [ ] Fixing scales and locations of obstacles in game
  - [ ] Tidying up look of game
+ - Consider adding additional features (powerups, more characters, etc.)
+   - Created:
+     - [ ]
