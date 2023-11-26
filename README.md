@@ -60,6 +60,6 @@ phase and wins the game by reaching the end.
  - [x] Tidying up look of game
  - Consider adding additional features (powerups, more characters, etc.)
    - Created:
-     - [ ] More playable characters (just skins)
+     - [x] More playable characters (just skins)
      - [ ] Endless mode (turn off saturn level)
      - [ ] Shield Powerup (disappears after time, allows for one free collision)

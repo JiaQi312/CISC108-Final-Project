@@ -1,3 +1,4 @@
+import designer
 from designer import *
 from dataclasses import dataclass
 
@@ -7,18 +8,16 @@ OBSTACLE3_SPEED = 1
 OBSTACLE4_SPEED = 5
 OBSTACLE6_SPEED = 0
 
-
 @dataclass
 class Obstacle:
     obstacle_itself: DesignerObject
     obstacle_speed: int
 
-
 @dataclass
 class World:
-    egg: DesignerObject
-    egg_speed_x: int
-    egg_speed_y: int
+    character: DesignerObject
+    character_speed_x: int
+    character_speed_y: int
     game_time: DesignerObject
     game_time_value: int
     level_title: DesignerObject
@@ -29,10 +28,9 @@ class World:
     obstacle4_list: list[Obstacle]
     obstacle6_list: list[Obstacle]
 
-
 def create_world() -> World:
     """Creating World"""
-    return World(create_egg(),
+    return World(create_character(choose_character()),
                  0,
                  0,
                  text("black", "Time: ", 24, get_width() / 2, 20),
@@ -46,12 +44,26 @@ def create_world() -> World:
                  []
                  )
 
-
-def create_egg() -> DesignerObject:
-    """Create the Egg"""
-    egg = emoji("egg")
-    egg.y = get_height() * (1 / 2)
-    return egg
+def choose_character() -> str:
+    """Now one can choose their character!"""
+    valid_names = ["egg", "rocket", "rock", "cat", "dog", "winking"]
+    valid_name = False
+    choose_your_character = input("What do you want to play as?" "\n"
+                                  "egg, rocket, rock, cat, dog, winking")
+    if choose_your_character.strip().lower() in valid_names:
+        valid_name = True
+    while not valid_name:
+        choose_your_character = input("Invalid character. Type in one of these" "\n"
+                                      "egg, rocket, rock, cat, dog, winking")
+        if choose_your_character.strip().lower() in valid_names:
+            valid_name = True
+    return choose_your_character.strip().lower()
+def create_character(name: str) -> DesignerObject:
+    """Create the Character"""
+    character = emoji(name)
+    character.y = get_height() * (1 / 2)
+    print("all set, start dodging!")
+    return character
 
 
 def create_timer(world: World):
@@ -66,38 +78,38 @@ def increase_timer(world: World):
         world.game_time_value += 1
 
 
-def move_egg(world: World):
-    """Regular movement of the egg"""
-    world.egg.x += world.egg_speed_x
-    world.egg.y += world.egg_speed_y
+def move_character(world: World):
+    """Regular movement of the character"""
+    world.character.x += world.character_speed_x
+    world.character.y += world.character_speed_y
 
 
 def head_left(world: World):
-    """egg heads left"""
-    world.egg_speed_x = -5
-    world.egg_speed_y = 0
+    """character heads left"""
+    world.character_speed_x = -5
+    world.character_speed_y = 0
 
 
 def head_right(world: World):
-    """egg heads right"""
-    world.egg_speed_x = 5
-    world.egg_speed_y = 0
+    """character heads right"""
+    world.character_speed_x = 5
+    world.character_speed_y = 0
 
 
 def head_up(world: World):
-    """egg heads up"""
-    world.egg_speed_x = 0
-    world.egg_speed_y = -5
+    """character heads up"""
+    world.character_speed_x = 0
+    world.character_speed_y = -5
 
 
 def head_down(world: World):
-    """egg heads down"""
-    world.egg_speed_x = 0
-    world.egg_speed_y = 5
+    """character heads down"""
+    world.character_speed_x = 0
+    world.character_speed_y = 5
 
 
-def egg_direction(world: World, key: str):
-    """Determining which direction egg moves"""
+def character_direction(world: World, key: str):
+    """Determining which direction character moves"""
     if key == "right":
         head_right(world)
     if key == "left":
@@ -108,15 +120,15 @@ def egg_direction(world: World, key: str):
         head_down(world)
 
 
-def egg_wall(world: World):
-    """to make egg bounce off wall"""
-    if world.egg.x > get_width():
+def character_wall(world: World):
+    """to make character bounce off wall"""
+    if world.character.x > get_width():
         head_left(world)
-    if world.egg.x < 0:
+    if world.character.x < 0:
         head_right(world)
-    if world.egg.y < 0:
+    if world.character.y < 0:
         head_down(world)
-    if world.egg.y > get_height():
+    if world.character.y > get_height():
         head_up(world)
 
 
@@ -250,28 +262,28 @@ def create_obstacle3(world: World):
 def obstacle3_movement(world: World):
     """movement for obstacle 3, want to make it home towards character"""
     for obstacle in world.obstacle3_list:
-        if world.egg.x > obstacle.obstacle_itself.x:
-            if world.egg.y > obstacle.obstacle_itself.y:
+        if world.character.x > obstacle.obstacle_itself.x:
+            if world.character.y > obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.x += obstacle.obstacle_speed
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
-            if world.egg.y < obstacle.obstacle_itself.y:
+            if world.character.y < obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.x += obstacle.obstacle_speed
                 obstacle.obstacle_itself.y += -obstacle.obstacle_speed
             else:
                 obstacle.obstacle_itself.x += (obstacle.obstacle_speed * 1.5)
-        elif world.egg.x < obstacle.obstacle_itself.x:
-            if world.egg.y > obstacle.obstacle_itself.y:
+        elif world.character.x < obstacle.obstacle_itself.x:
+            if world.character.y > obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.x += -obstacle.obstacle_speed
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
-            if world.egg.y < obstacle.obstacle_itself.y:
+            if world.character.y < obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.x += -obstacle.obstacle_speed
                 obstacle.obstacle_itself.y += -obstacle.obstacle_speed
             else:
                 obstacle.obstacle_itself.x += -(obstacle.obstacle_speed * 1.5)
         else:
-            if world.egg.y > obstacle.obstacle_itself.y:
+            if world.character.y > obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.y += (obstacle.obstacle_speed * 1.5)
-            if world.egg.y < obstacle.obstacle_itself.y:
+            if world.character.y < obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.y += -(obstacle.obstacle_speed * 1.5)
 
 
@@ -412,12 +424,12 @@ def create_obstacle6(world: World):
         obstacle6_1.obstacle_itself.y = get_height() / 2
         world.obstacle6_list.append(obstacle6_1)
 
-def egg_hits_saturn(world: World) -> bool:
+def character_hits_saturn(world: World) -> bool:
     """determines whether one wins the game"""
     wins_game = False
     for obstacle in world.obstacle6_list:
-        if (world.egg.x + 50) > obstacle.obstacle_itself.x > (world.egg.x - 50):
-            if (world.egg.y + 50) > obstacle.obstacle_itself.y > (world.egg.y - 50):
+        if (world.character.x + 50) > obstacle.obstacle_itself.x > (world.character.x - 50):
+            if (world.character.y + 50) > obstacle.obstacle_itself.y > (world.character.y - 50):
                 wins_game = True
     return wins_game
 
@@ -428,24 +440,24 @@ def win_screen(world: World):
 
 # ///////////////end of end screen/////////////////////////
 
-def egg_hits_obstacle(world: World) -> bool:
+def character_hits_obstacle(world: World) -> bool:
     """determines whether one loses the game"""
     is_game_over = False
     for obstacle in world.obstacle1_list:
-        if (world.egg.x + 20) > obstacle.obstacle_itself.x > (world.egg.x - 20):
-            if (world.egg.y + 20) > obstacle.obstacle_itself.y > (world.egg.y - 20):
+        if (world.character.x + 20) > obstacle.obstacle_itself.x > (world.character.x - 20):
+            if (world.character.y + 20) > obstacle.obstacle_itself.y > (world.character.y - 20):
                 is_game_over = True
     for obstacle in world.obstacle2_list:
-        if (world.egg.x + 30) > obstacle.obstacle_itself.x > (world.egg.x - 30):
-            if (world.egg.y + 30) > obstacle.obstacle_itself.y > (world.egg.y - 30):
+        if (world.character.x + 30) > obstacle.obstacle_itself.x > (world.character.x - 30):
+            if (world.character.y + 30) > obstacle.obstacle_itself.y > (world.character.y - 30):
                 is_game_over = True
     for obstacle in world.obstacle3_list:
-        if (world.egg.x + 50) > obstacle.obstacle_itself.x > (world.egg.x - 50):
-            if (world.egg.y + 50) > obstacle.obstacle_itself.y > (world.egg.y - 50):
+        if (world.character.x + 50) > obstacle.obstacle_itself.x > (world.character.x - 50):
+            if (world.character.y + 50) > obstacle.obstacle_itself.y > (world.character.y - 50):
                 is_game_over = True
     for obstacle in world.obstacle4_list:
-        if (world.egg.x + 50) > obstacle.obstacle_itself.x > (world.egg.x - 50):
-            if (world.egg.y + 50) > obstacle.obstacle_itself.y > (world.egg.y - 50):
+        if (world.character.x + 50) > obstacle.obstacle_itself.x > (world.character.x - 50):
+            if (world.character.y + 50) > obstacle.obstacle_itself.y > (world.character.y - 50):
                 is_game_over = True
     return is_game_over
 
@@ -454,10 +466,9 @@ def game_over(world: World):
     """shows game over message"""
     world.game_time.text = "Game Over! Score: " + str(world.game_time_value)
 
-
 when("starting", create_world)
-when("updating", move_egg)
-when("updating", egg_wall)
+when("updating", move_character)
+when("updating", character_wall)
 when("updating", create_timer)
 when("updating", increase_timer)
 # level1
@@ -491,7 +502,7 @@ when("updating", level_five)
 when("updating", level_six_title)
 when("updating", create_obstacle6)
 # level6
-when("typing", egg_direction)
-when(egg_hits_saturn, win_screen, pause)
-when(egg_hits_obstacle, game_over, pause)
+when("typing", character_direction)
+when(character_hits_saturn, win_screen, pause)
+when(character_hits_obstacle, game_over, pause)
 start()
