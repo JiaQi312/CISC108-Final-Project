@@ -326,7 +326,7 @@ def level_three_title(world: World):
 
 def create_obstacle3(world: World):
     """creating obstacle for level 3"""
-    if world.frame_timer == 1950:
+    if world.frame_timer == 195:
         plane = emoji("airplane")
         plane.scale_y = 3
         plane.scale_x = 3
@@ -345,23 +345,23 @@ def obstacle3_movement(world: World):
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.character.y < obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.x += obstacle.obstacle_speed
-                obstacle.obstacle_itself.y += -obstacle.obstacle_speed
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
             else:
-                obstacle.obstacle_itself.x += (obstacle.obstacle_speed * 1.5)
-        elif world.character.x < obstacle.obstacle_itself.x:
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed
+        if world.character.x < obstacle.obstacle_itself.x:
             if world.character.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += -obstacle.obstacle_speed
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.character.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += -obstacle.obstacle_speed
-                obstacle.obstacle_itself.y += -obstacle.obstacle_speed
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
             else:
-                obstacle.obstacle_itself.x += -(obstacle.obstacle_speed * 1.5)
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
         else:
             if world.character.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y += (obstacle.obstacle_speed * 1.5)
+                obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.character.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.y += -(obstacle.obstacle_speed * 1.5)
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
 
 
 # /////////////////end of obstacle 3////////////////////////////
@@ -481,10 +481,7 @@ def level_five(world: World):
             if obstacle.obstacle_speed < 0:
                 obstacle.obstacle_speed += -2
         for obstacle in world.obstacle3_list:
-            if obstacle.obstacle_speed > 0:
                 obstacle.obstacle_speed += 0.5
-            if obstacle.obstacle_speed < 0:
-                obstacle.obstacle_speed += -0.5
 
 # ////////////////end of level 5/////////////////////////////
 
