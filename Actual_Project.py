@@ -159,10 +159,10 @@ def character_wall(world: World):
 # /////////////////////////shield powerup/////////////////////////////
 def should_shield_spawn(world: World) -> bool:
     """deciding if the powerup should spawn"""
-    should_shield_spawn = False
+    should_shield = False
     if not world.frame_timer % 1350:
-        should_shield_spawn = True
-    return should_shield_spawn
+        should_shield = True
+    return should_shield
 
 def create_shield(world: World):
     """creating the shield powerup"""
@@ -250,9 +250,9 @@ def obstacle1_wall(world: World):
     """to make obstacles bounce off wall"""
     for obstacle in world.obstacle1_list:
         if obstacle.obstacle_itself.x > get_width():
-            obstacle.obstacle_speed = -OBSTACLE1_SPEED
+            obstacle.obstacle_speed = -obstacle.obstacle_speed
         if obstacle.obstacle_itself.x < 0:
-            obstacle.obstacle_speed = OBSTACLE1_SPEED
+            obstacle.obstacle_speed = -obstacle.obstacle_speed
 
 
 # ///////////////////end of obstacle 1/////////////////////////////
@@ -471,14 +471,20 @@ def level_five(world: World):
     """speeding obstacles up"""
     if world.frame_timer == 4200:
         for obstacle in world.obstacle1_list:
-            obstacle.obstacle_speed += 2
+            if obstacle.obstacle_speed > 0:
+                obstacle.obstacle_speed += 2
+            if obstacle.obstacle_speed < 0:
+                obstacle.obstacle_speed += -2
         for obstacle in world.obstacle2_list:
-            obstacle.obstacle_speed += 2
+            if obstacle.obstacle_speed > 0:
+                obstacle.obstacle_speed += 2
+            if obstacle.obstacle_speed < 0:
+                obstacle.obstacle_speed += -2
         for obstacle in world.obstacle3_list:
-            obstacle.obstacle_speed += 0.5
-        for obstacle in world.obstacle4_list:
-            obstacle.obstacle_speed += 2
-
+            if obstacle.obstacle_speed > 0:
+                obstacle.obstacle_speed += 0.5
+            if obstacle.obstacle_speed < 0:
+                obstacle.obstacle_speed += -0.5
 
 # ////////////////end of level 5/////////////////////////////
 

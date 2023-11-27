@@ -12,13 +12,21 @@ projectiles and obstacles (of increasing scales) on screen for 30 seconds.
 After successfully staying safe for 30 seconds, the player will move on to 
 different levels, in which additional obstacles will be added on top of the 
 already existing obstacles. This continues until the player reaches the final 
-phase and wins the game by reaching the end. 
+phase and wins the game by reaching the end. If the player is in endless mode,
+they will aim to achieve the largest score possible. 
 
 ### Preview: (will insert video here)
 
 ### Instructions:
+ - Pre-Game
+   - Prompt will come up in terminal
+     - Choose character to play (type in word)
+     - choose yes / no for endless mode 
+     - Then good to go!
  - Dodge the obstacles
  - Control character with the arrow keys 
+ - Collect the shields which pop up throughout the game
+   - Each shield allows you to collide obstacles for 20 frames without losing
 
 ### Authors:
  - Jia Qi (qijia@udel.edu)
@@ -26,7 +34,7 @@ phase and wins the game by reaching the end.
 ### Acknowledgements
  - These helped A LOT:
    - Designer Function List
-   - Example Firefighter Game
+   - Example Firefighter Game (Designer Tutorial)
 
 ## Development Progress
 ### Phase 1: Figuring things out
