@@ -71,3 +71,11 @@ they will aim to achieve the largest score possible.
      - [x] More playable characters (just skins)
      - [x] Endless mode (turn off saturn level)
      - [x] Shield Powerup (disappears after time, allows for one free collision)
+ - Testing
+   - [ ] Character Selection
+   - [ ] Run Through Game
+     - [x] Normal Mode
+     - [ ] Endless Mode
+   - [x] Tweak Obstacle Speeds if Necessary
+   - [x] Shield Powerup
+   - [ ] Proper Collision

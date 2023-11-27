@@ -326,7 +326,7 @@ def level_three_title(world: World):
 
 def create_obstacle3(world: World):
     """creating obstacle for level 3"""
-    if world.frame_timer == 195:
+    if world.frame_timer == 1950:
         plane = emoji("airplane")
         plane.scale_y = 3
         plane.scale_x = 3
@@ -339,24 +339,24 @@ def create_obstacle3(world: World):
 def obstacle3_movement(world: World):
     """movement for obstacle 3, want to make it home towards character"""
     for obstacle in world.obstacle3_list:
-        if world.character.x > obstacle.obstacle_itself.x:
-            if world.character.y > obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += obstacle.obstacle_speed
-                obstacle.obstacle_itself.y += obstacle.obstacle_speed
-            if world.character.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x += obstacle.obstacle_speed
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
-            else:
-                obstacle.obstacle_itself.x += obstacle.obstacle_speed
         if world.character.x < obstacle.obstacle_itself.x:
             if world.character.y > obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.x -= obstacle.obstacle_speed
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
             if world.character.y < obstacle.obstacle_itself.y:
-                obstacle.obstacle_itself.x -= obstacle.obstacle_speed
-                obstacle.obstacle_itself.y -= obstacle.obstacle_speed
+                obstacle.obstacle_itself.x -= obstacle.obstacle_speed + 0.45
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed + 0.45
             else:
                 obstacle.obstacle_itself.x -= obstacle.obstacle_speed
+        if world.character.x > obstacle.obstacle_itself.x:
+            if world.character.y < obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed + 0.40
+                obstacle.obstacle_itself.y -= obstacle.obstacle_speed + 0.40
+            if world.character.y > obstacle.obstacle_itself.y:
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed + 0.90
+                obstacle.obstacle_itself.y += obstacle.obstacle_speed + 0.90
+            else:
+                obstacle.obstacle_itself.x += obstacle.obstacle_speed
         else:
             if world.character.y > obstacle.obstacle_itself.y:
                 obstacle.obstacle_itself.y += obstacle.obstacle_speed
@@ -555,7 +555,20 @@ def character_hits_obstacle(world: World) -> bool:
                     world.shield_amount += -1
     return is_game_over
 
-
+def destroy_obstacles(world: World):
+    """destroys all obstacles at the end of the game"""
+    for obstacle in world.obstacle1_list:
+        destroy(obstacle.obstacle_itself)
+        world.obstacle1_list.remove(obstacle)
+    for obstacle in world.obstacle2_list:
+        destroy(obstacle.obstacle_itself)
+        world.obstacle2_list.remove(obstacle)
+    for obstacle in world.obstacle3_list:
+        destroy(obstacle.obstacle_itself)
+        world.obstacle3_list.remove(obstacle)
+    for obstacle in world.obstacle4_list:
+        destroy(obstacle.obstacle_itself)
+        world.obstacle4_list.remove(obstacle)
 def game_over(world: World):
     """shows game over message"""
     world.game_time.text = "Game Over! Score: " + str(world.game_time_value)
@@ -603,6 +616,6 @@ when("updating", update_shield_status)
 when(character_hits_shield, character_gets_shield)
 # shield
 when("typing", character_direction)
-when(character_hits_saturn, win_screen, pause)
-when(character_hits_obstacle, game_over, pause)
+when(character_hits_saturn, pause, win_screen, destroy_obstacles)
+when(character_hits_obstacle, pause, game_over, destroy_obstacles)
 start()
