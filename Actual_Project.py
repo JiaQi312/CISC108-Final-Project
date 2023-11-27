@@ -1,3 +1,4 @@
+import random
 from designer import *
 from dataclasses import dataclass
 
@@ -11,6 +12,12 @@ OBSTACLE6_SPEED = 0
 class Obstacle:
     obstacle_itself: DesignerObject
     obstacle_speed: int
+
+@dataclass
+class Shield:
+    shield_itself: DesignerObject
+    bobbing_toggle: int
+    shield_timer: int
 
 @dataclass
 class World:
@@ -27,6 +34,9 @@ class World:
     obstacle3_list: list[Obstacle]
     obstacle4_list: list[Obstacle]
     obstacle6_list: list[Obstacle]
+    list_of_shields: list[Shield]
+    shield_status: DesignerObject
+    shield_amount: int
 
 def create_world() -> World:
     """Creating World"""
@@ -35,14 +45,17 @@ def create_world() -> World:
                  0,
                  text("black", "Time: ", 24, get_width() / 2, 20),
                  0,
-                 text("black", "", 24, 50, 20),
+                 text("black", "", 24, 60, 20),
                  0,
                  enable_endless(),
                  [],
                  [],
                  [],
                  [],
-                 []
+                 [],
+                 [],
+                 text("black", "", 24, 70, 50),
+                 0
                  )
 
 def choose_character() -> str:
@@ -142,6 +155,58 @@ def character_wall(world: World):
         head_down(world)
     if world.character.y > get_height():
         head_up(world)
+
+# /////////////////////////shield powerup/////////////////////////////
+def should_shield_spawn(world: World) -> bool:
+    """deciding if the powerup should spawn"""
+    should_shield_spawn = False
+    if not world.frame_timer % 1350:
+        should_shield_spawn = True
+    return should_shield_spawn
+
+def create_shield(world: World):
+    """creating the shield powerup"""
+    shield = emoji("shield")
+    shield.x = random.randint(0, get_width())
+    shield.y = random.randint(0, get_height())
+    world.list_of_shields.append(Shield(shield, 0, 0))
+
+def shield_bobbing(world: World):
+    """allowing the shield to bob up and down in scale"""
+    for shield in world.list_of_shields:
+        if shield.bobbing_toggle == 0:
+            shield.shield_itself.scale_x += -0.01
+            shield.shield_itself.scale_y += -0.01
+            shield.shield_timer += 1
+            if shield.shield_timer == 30:
+                shield.bobbing_toggle = 1
+        if shield.bobbing_toggle == 1:
+            shield.shield_itself.scale_x += 0.01
+            shield.shield_itself.scale_y += 0.01
+            shield.shield_timer += -1
+            if shield.shield_timer == 0:
+                shield.bobbing_toggle = 0
+def update_shield_status(world: World):
+    """updating current amount of shield available"""
+    world.shield_status.text = "Shield: " + str(world.shield_amount) + "x"
+
+def character_hits_shield(world: World) -> bool:
+    """collision interaction between character and shield"""
+    hits_shield = False
+    for shield in world.list_of_shields:
+        if (world.character.x + 20) > shield.shield_itself.x > (world.character.x - 20):
+            if (world.character.y + 20) > shield.shield_itself.y > (world.character.y - 20):
+                hits_shield = True
+                destroy(shield.shield_itself)
+                shield.bobbing_toggle = 2
+                world.list_of_shields.remove(shield)
+    return hits_shield
+
+def character_gets_shield(world: World):
+    """Giving character shield when the shield emoji is hit"""
+    world.shield_amount += 20
+
+# //////////////////////// end of shield powerup /////////////////////
 
 
 # ////////////////////////////Obstacle 1////////////////////////////////
@@ -460,19 +525,31 @@ def character_hits_obstacle(world: World) -> bool:
     for obstacle in world.obstacle1_list:
         if (world.character.x + 20) > obstacle.obstacle_itself.x > (world.character.x - 20):
             if (world.character.y + 20) > obstacle.obstacle_itself.y > (world.character.y - 20):
-                is_game_over = True
+                if world.shield_amount == 0:
+                    is_game_over = True
+                else:
+                    world.shield_amount += -1
     for obstacle in world.obstacle2_list:
         if (world.character.x + 30) > obstacle.obstacle_itself.x > (world.character.x - 30):
             if (world.character.y + 30) > obstacle.obstacle_itself.y > (world.character.y - 30):
-                is_game_over = True
+                if world.shield_amount == 0:
+                    is_game_over = True
+                else:
+                    world.shield_amount += -1
     for obstacle in world.obstacle3_list:
         if (world.character.x + 50) > obstacle.obstacle_itself.x > (world.character.x - 50):
             if (world.character.y + 50) > obstacle.obstacle_itself.y > (world.character.y - 50):
-                is_game_over = True
+                if world.shield_amount == 0:
+                    is_game_over = True
+                else:
+                    world.shield_amount += -1
     for obstacle in world.obstacle4_list:
         if (world.character.x + 50) > obstacle.obstacle_itself.x > (world.character.x - 50):
             if (world.character.y + 50) > obstacle.obstacle_itself.y > (world.character.y - 50):
-                is_game_over = True
+                if world.shield_amount == 0:
+                    is_game_over = True
+                else:
+                    world.shield_amount += -1
     return is_game_over
 
 
@@ -516,6 +593,12 @@ when("updating", level_five)
 when("updating", level_six_title)
 when("updating", create_obstacle6)
 # level6
+# shield
+when(should_shield_spawn, create_shield)
+when("updating", shield_bobbing)
+when("updating", update_shield_status)
+when(character_hits_shield, character_gets_shield)
+# shield
 when("typing", character_direction)
 when(character_hits_saturn, win_screen, pause)
 when(character_hits_obstacle, game_over, pause)

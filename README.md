@@ -62,4 +62,4 @@ phase and wins the game by reaching the end.
    - Created:
      - [x] More playable characters (just skins)
      - [x] Endless mode (turn off saturn level)
-     - [ ] Shield Powerup (disappears after time, allows for one free collision)
+     - [x] Shield Powerup (disappears after time, allows for one free collision)
