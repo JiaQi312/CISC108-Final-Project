@@ -1,4 +1,3 @@
-import designer
 from designer import *
 from dataclasses import dataclass
 
@@ -22,6 +21,7 @@ class World:
     game_time_value: int
     level_title: DesignerObject
     frame_timer: int
+    endless_mode: bool
     obstacle1_list: list[Obstacle]
     obstacle2_list: list[Obstacle]
     obstacle3_list: list[Obstacle]
@@ -37,6 +37,7 @@ def create_world() -> World:
                  0,
                  text("black", "", 24, 50, 20),
                  0,
+                 enable_endless(),
                  [],
                  [],
                  [],
@@ -76,6 +77,17 @@ def increase_timer(world: World):
     world.frame_timer += 1
     if world.frame_timer % 30 == 0:
         world.game_time_value += 1
+
+def enable_endless() -> bool:
+    toggle = input("Endless Mode?" "\n"
+                   "yes / no")
+    if toggle.lower().strip() == "yes":
+        return True
+    if toggle.lower().strip() == "no":
+        return False
+    else:
+        return False
+
 
 
 def move_character(world: World):
@@ -409,20 +421,22 @@ def level_five(world: World):
 def level_six_title(world: World):
     """creating title for level 6"""
     if world.frame_timer == 4500:
-        world.level_title.text = "Level 6"
-        world.game_time.text = "Reach Saturn!"
+        if not world.endless_mode:
+            world.level_title.text = "Level 6"
+            world.game_time.text = "Reach Saturn!"
 
 
 def create_obstacle6(world: World):
     """creating obstacle 6"""
     if world.frame_timer == 4500:
-        saturn = emoji("🪐")
-        saturn.scale_x = 5
-        saturn.scale_y = 5
-        obstacle6_1 = Obstacle(saturn, OBSTACLE6_SPEED)
-        obstacle6_1.obstacle_itself.x = get_width() / 2
-        obstacle6_1.obstacle_itself.y = get_height() / 2
-        world.obstacle6_list.append(obstacle6_1)
+        if not world.endless_mode:
+            saturn = emoji("🪐")
+            saturn.scale_x = 5
+            saturn.scale_y = 5
+            obstacle6_1 = Obstacle(saturn, OBSTACLE6_SPEED)
+            obstacle6_1.obstacle_itself.x = get_width() / 2
+            obstacle6_1.obstacle_itself.y = get_height() / 2
+            world.obstacle6_list.append(obstacle6_1)
 
 def character_hits_saturn(world: World) -> bool:
     """determines whether one wins the game"""
