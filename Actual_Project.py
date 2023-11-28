@@ -422,21 +422,30 @@ def level_one_title(world: World):
 
 def obstacle1_movement(world: World):
     """
-        Allows character to move right
+    Determines movement for the level 1 obstacles
 
-        Args:
-            world (World): The world dataclass created during the start of the game
+    Args:
+        world (World): The world dataclass created during the start of the game
 
-        Return:
-            None: The function does not return anything, but changes the character speed
-            so that they can only move to the right
-        """
+    Return:
+        None: The function does not return anything, but makes it so that the
+        obstacles move from left to right.
+    """
     for obstacle in world.obstacle1_list:
         obstacle.obstacle_itself.x += obstacle.obstacle_speed
 
 
 def obstacle1_wall(world: World):
-    """to make obstacles bounce off wall"""
+    """
+    Makes the obstacles bounce off wall and move in the opposite direction
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the obstacle speed
+        to the opposite direction.
+    """
     for obstacle in world.obstacle1_list:
         if obstacle.obstacle_itself.x > get_width():
             obstacle.obstacle_speed = -obstacle.obstacle_speed
@@ -448,13 +457,32 @@ def obstacle1_wall(world: World):
 
 # ///////////////////obstacle 2///////////////////////////////////
 def level_two_title(world: World):
-    """creating title for level 2"""
+    """
+    Creates the title for level 2
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the title text to
+        level 2 when 30 seconds has passed.
+    """
     if world.game_time_value == 30:
         world.level_title.text = "Level 2"
 
 
 def create_obstacles2(world: World):
-    """creating obstacles for level 2"""
+    """
+    Creates the obstacles for level 2
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but creates frisbees which
+        move up and down on the screen. These frisbees are added to a list for
+        all level 2 obstacles.
+    """
     if world.frame_timer == 1050:
         frisbee = emoji("🥏")
         frisbee.scale_x = 1.5
@@ -490,13 +518,31 @@ def create_obstacles2(world: World):
 
 
 def obstacle2_movement(world: World):
-    """moving the obstacles"""
+    """
+    Establishes up and down movement of the frisbee
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the y value of
+        the frisbees so that they move vertically.
+    """
     for obstacle in world.obstacle2_list:
         obstacle.obstacle_itself.y += obstacle.obstacle_speed
 
 
 def obstacle2_wall(world: World):
-    """bouncing obstacles off wall"""
+    """
+    Establishes collision interaction between frisbee and the wall
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the obstacle
+        speed so that it moves in the opposite direction.
+    """
     for obstacle in world.obstacle2_list:
         if obstacle.obstacle_itself.y > get_height():
             obstacle.obstacle_speed = -OBSTACLE2_SPEED
@@ -508,13 +554,31 @@ def obstacle2_wall(world: World):
 
 # /////////////////start of obstacle 3///////////////////////////
 def level_three_title(world: World):
-    """creating title for level 3"""
+    """
+    Updates the level text to level 3
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the text of
+        level_title to level 3.
+    """
     if world.game_time_value == 60:
         world.level_title.text = "Level 3"
 
 
 def create_obstacle3(world: World):
-    """creating obstacle for level 3"""
+    """
+    Creates the obstacle for level 3.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but creates the obstacle and adds
+        it to the obstacle 3 list.
+    """
     if world.frame_timer == 1950:
         plane = emoji("airplane")
         plane.scale_y = 3
@@ -526,7 +590,17 @@ def create_obstacle3(world: World):
 
 
 def obstacle3_movement(world: World):
-    """movement for obstacle 3, want to make it home towards character"""
+    """
+    Determines movement for obstacle 3. This one homes towards the player after taking
+    in the player's coordinates relative to its own.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. The obstacle compares xy coordinates
+        with the player and moves towards the player.
+    """
     for obstacle in world.obstacle3_list:
         if world.character.x < obstacle.obstacle_itself.x:
             if world.character.y > obstacle.obstacle_itself.y:
@@ -557,13 +631,31 @@ def obstacle3_movement(world: World):
 
 # /////////////////obstacle 4//////////////////////////////////
 def level_four_title(world: World):
-    """creating title for level 4"""
+    """
+    Updates the level to level 4
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. Updates the text of level_title
+        to level 4.
+    """
     if world.game_time_value == 90:
         world.level_title.text = "Level 4"
 
 
 def create_obstacle4(world: World):
-    """creating obstacles for level 4"""
+    """
+    Creates the obstacles for level 4. These move around the border of the screen.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. Creates obstacles every 5
+        seconds and adds them to the obstacle 4 list.
+    """
     if world.frame_timer == 2850:
         satellite = emoji("satellite")
         satellite.scale_y = 3
@@ -622,7 +714,17 @@ def create_obstacle4(world: World):
         world.obstacle4_list.append(obstacle4_7)
 
 def obstacle4_horz_movement(world: World):
-    """defining horizontal movement for obstacle 4"""
+    """
+    Determines the horizontal movement for level 4 obstacles. Changes direction when they
+    hit the corner.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. When the obstacle reaches a certain corner,
+        its speed updates in order to continue moving across the border.
+    """
     for obstacle in world.obstacle4_list:
         if obstacle.obstacle_itself.y == get_height() - 20:
             if obstacle.obstacle_itself.x == get_width() - 20:
@@ -635,7 +737,17 @@ def obstacle4_horz_movement(world: World):
 
 
 def obstacle4_vert_movement(world: World):
-    """defining vertical movement for obstacle 4"""
+    """
+    Determines the vertical movement for level 4 obstacles. Changes direction when they
+    hit the corner.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. When the obstacle reaches a certain corner,
+        its speed updates in order to continue moving across the border.
+    """
     for obstacle in world.obstacle4_list:
         if obstacle.obstacle_itself.x == 20:
             if obstacle.obstacle_itself.y == get_height() - 20:
@@ -651,13 +763,31 @@ def obstacle4_vert_movement(world: World):
 
 # ////////////////level 5/////////////////////////////////////
 def level_five_title(world: World):
-    """creating title for level 5"""
+    """
+    Updates the level title to level 5
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. Updates the text of level_title
+        to level 5
+    """
     if world.game_time_value == 140:
         world.level_title.text = "Level 5"
 
 
 def level_five(world: World):
-    """speeding obstacles up"""
+    """
+    For level 5, obstacles in level 1, 2, and 3 have their speed increased
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. When 140 seconds has passed,
+        runs through obstacle lists and increases their speeds
+    """
     if world.frame_timer == 4200:
         for obstacle in world.obstacle1_list:
             if obstacle.obstacle_speed > 0:
@@ -676,14 +806,32 @@ def level_five(world: World):
 
 # ///////////////end screen/////////////////////////////////
 def level_six_title(world: World):
-    """creating title for level 6"""
+    """
+    Updates the level title to level 6
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. When the time reaches 150 seconds,
+        the text of level_title and game_time are updated accordingly.
+    """
     if world.frame_timer == 4500:
         if not world.endless_mode:
             world.level_title.text = "Level 6"
             world.game_time.text = "Reach Saturn!"
 
 def create_saturn(world: World):
-    """creating saturn (to win the game)"""
+    """
+    Creates the saturn emoji, which the player needs to reach to win the game
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. When 150 seconds have passed,
+        creates the saturn emoji at the center of the screen.
+    """
     if world.frame_timer == 4500:
         if not world.endless_mode:
             saturn = emoji("🪐")
@@ -694,7 +842,16 @@ def create_saturn(world: World):
             world.saturn_list.append(saturn)
 
 def character_hits_saturn(world: World) -> bool:
-    """determines whether one wins the game"""
+    """
+    Determines whether the player character has hit saturn, which triggers
+    the win screen
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        bool: Whether or not the character has reached saturn
+    """
     wins_game = False
     for saturn in world.saturn_list:
         if (world.character.x + 50) > saturn.x > (world.character.x - 50):
@@ -704,14 +861,34 @@ def character_hits_saturn(world: World) -> bool:
 
 
 def win_screen(world: World):
-    """Shows win screen"""
+    """
+    Creates the win screen for the game, updating text and hiding all obstacles
+    on screen.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. updates the text of game_time
+        to the win text and hides all obstacles on screen
+    """
     world.game_time.text = "Congratulations! Your Score: " + str(world.game_time_value)
     hide_obstacles(world)
 
 # ///////////////end of end screen/////////////////////////
 
 def character_hits_obstacle(world: World) -> bool:
-    """determines whether one loses the game"""
+    """
+    Determines whether or not the character has hit an obstacle, which decides whether they
+    lose the game.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        bool: Whether or not any obstacles have entered into range of the character. Will also
+        decrease shield if the player has any (or else they lose).
+    """
     is_game_over = False
     for obstacle in world.obstacle1_list:
         if (world.character.x + 20) > obstacle.obstacle_itself.x > (world.character.x - 20):
@@ -744,7 +921,16 @@ def character_hits_obstacle(world: World) -> bool:
     return is_game_over
 
 def hide_obstacles(world: World):
-    """hides all obstacles at the end of the game"""
+    """
+    Hides all obstacles on screen
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. The hide function runs through
+        each obstacle list and removes them from screen.
+    """
     for obstacle in world.obstacle1_list:
         hide(obstacle.obstacle_itself)
     for obstacle in world.obstacle2_list:
@@ -754,7 +940,17 @@ def hide_obstacles(world: World):
     for obstacle in world.obstacle4_list:
         hide(obstacle.obstacle_itself)
 def game_over(world: World):
-    """shows game over message"""
+    """
+    The game over screen for the game. Occurs when the player hits an obstacle with
+    0 shield.
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything. updates the game_time text and
+        hides all obstacles on screen.
+    """
     world.game_time.text = "Game Over! Score: " + str(world.game_time_value)
     hide_obstacles(world)
 
