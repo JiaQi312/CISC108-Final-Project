@@ -39,7 +39,14 @@ class World:
     shield_amount: int
 
 def create_world() -> World:
-    """Creating World"""
+    """
+    Creates the world
+
+    Args: None
+
+    Return: The World dataclass, with values for each field, which will be
+    updated throughout the game
+    """
     return World(create_character(choose_character()),
                  0,
                  0,
@@ -59,7 +66,14 @@ def create_world() -> World:
                  )
 
 def choose_character() -> str:
-    """Now one can choose their character!"""
+    """
+    This function allows the player to choose their character
+
+    Args: None
+
+    Return (str): A valid word corresponding with a particular emoji, which the player will
+    control during the game.
+    """
     valid_names = ["egg", "rocket", "rock", "cat", "dog", "winking"]
     valid_name = False
     choose_your_character = input("What do you want to play as?" "\n"
@@ -73,7 +87,15 @@ def choose_character() -> str:
             valid_name = True
     return choose_your_character.strip().lower()
 def create_character(name: str) -> DesignerObject:
-    """Create the Character"""
+    """
+    Creates the character
+
+    Args:
+        name: (str) The name of the emoji obtained from the choose_character function
+
+    Return:
+        DesignerObject: The actual emoji with the player will control
+    """
     character = emoji(name)
     character.y = get_height() * (1 / 2)
     print("all set, start dodging!")
@@ -81,17 +103,42 @@ def create_character(name: str) -> DesignerObject:
 
 
 def create_timer(world: World):
-    """Creating the timer"""
+    """
+    Creates the timer
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function updates the game timer but does not return anything
+    """
     world.game_time.text = "Timer: " + str(world.game_time_value)
 
 
 def increase_timer(world: World):
-    """Increase an in-game timer that increases over time"""
+    """
+    Increase the in_game timer every second (or every 30 frames)
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function updates the frame timer and the game time, but does
+        not return anything
+    """
     world.frame_timer += 1
     if world.frame_timer % 30 == 0:
         world.game_time_value += 1
 
 def enable_endless() -> bool:
+    """
+    The function asks the player whether they want to play on endless mode
+
+    Args: None
+
+    Return:
+        bool: Whether or not endless mode should be enabled
+    """
     toggle = input("Endless Mode?" "\n"
                    "yes / no")
     if toggle.lower().strip() == "yes":
@@ -101,40 +148,93 @@ def enable_endless() -> bool:
     else:
         return False
 
-
-
 def move_character(world: World):
-    """Regular movement of the character"""
+    """
+    Establishes continuous movement for the character
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but continuously moves the
+        character in a certain direction
+    """
     world.character.x += world.character_speed_x
     world.character.y += world.character_speed_y
 
 
 def head_left(world: World):
-    """character heads left"""
+    """
+    Allows character to move left
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the character speed
+        so that they can only move to the left
+    """
     world.character_speed_x = -5
     world.character_speed_y = 0
 
 
 def head_right(world: World):
-    """character heads right"""
+    """
+    Allows character to move right
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the character speed
+        so that they can only move to the right
+    """
     world.character_speed_x = 5
     world.character_speed_y = 0
 
 
 def head_up(world: World):
-    """character heads up"""
+    """
+    Allows character to move upwards
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the character speed
+        so that they can only move upwards
+    """
     world.character_speed_x = 0
     world.character_speed_y = -5
 
 
 def head_down(world: World):
-    """character heads down"""
+    """
+    Allows character to move downwards
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the character speed
+        so that they can only move downwards
+    """
     world.character_speed_x = 0
     world.character_speed_y = 5
 
 
 def character_direction(world: World, key: str):
-    """Determining which direction character moves"""
+    """
+    Combines the earlier direction functions in order to bind it to a key input
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+        key (str): The name of the key being pressed (determines direction)
+
+    Return:
+        None: The function does not return anything, but decides which direction the
+        character moves based on which key is pressed.
+    """
     if key == "right":
         head_right(world)
     if key == "left":
@@ -146,7 +246,16 @@ def character_direction(world: World, key: str):
 
 
 def character_wall(world: World):
-    """to make character bounce off wall"""
+    """
+    Establishes how character interacts with the wall (bounces off in opposite direction
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, instead decides which direction the
+        character goes depending on which border was struck.
+    """
     if world.character.x > get_width():
         head_left(world)
     if world.character.x < 0:
@@ -158,21 +267,48 @@ def character_wall(world: World):
 
 # /////////////////////////shield powerup/////////////////////////////
 def should_shield_spawn(world: World) -> bool:
-    """deciding if the powerup should spawn"""
+    """
+    Decides whether the shield powerup should spawn, set for every 45 seconds
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        bool: Whether or not a shield should spawn (by testing if it's been exactly
+        45 seconds)
+    """
     should_shield = False
     if not world.frame_timer % 1350:
         should_shield = True
     return should_shield
 
 def create_shield(world: World):
-    """creating the shield powerup"""
+    """
+    Creates the actual shield powerup
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but creates the shield and adds
+        it to a list of all shields currently in game.
+    """
     shield = emoji("shield")
     shield.x = random.randint(0, get_width())
     shield.y = random.randint(0, get_height())
     world.list_of_shields.append(Shield(shield, 0, 0))
 
 def shield_bobbing(world: World):
-    """allowing the shield to bob up and down in scale"""
+    """
+    Makes it so that the shield bobs up and down
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but scales the shield up and
+        down, creating the bobbing effect.
+    """
     for shield in world.list_of_shields:
         if shield.bobbing_toggle == 0:
             shield.shield_itself.scale_x += -0.01
@@ -187,11 +323,29 @@ def shield_bobbing(world: World):
             if shield.shield_timer == 0:
                 shield.bobbing_toggle = 0
 def update_shield_status(world: World):
-    """updating current amount of shield available"""
+    """
+    Updates text stating how much shield the player still has
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but updates the shield_status
+        field in the World instance every update to how much shield they have.
+    """
     world.shield_status.text = "Shield: " + str(world.shield_amount) + "x"
 
 def character_hits_shield(world: World) -> bool:
-    """collision interaction between character and shield"""
+    """
+    Determines whether the character has hit the shield
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        bool: whether or not the shield is within the range of coordinates established
+        for the character. This boolean enables later functions.
+    """
     hits_shield = False
     for shield in world.list_of_shields:
         if (world.character.x + 20) > shield.shield_itself.x > (world.character.x - 20):
@@ -202,7 +356,16 @@ def character_hits_shield(world: World) -> bool:
     return hits_shield
 
 def character_gets_shield(world: World):
-    """Giving character shield when the shield emoji is hit"""
+    """
+    Adds shield to the player's total
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but adds 20 shield to the field
+        in "world" which describes how much shield the player has.
+    """
     world.shield_amount += 20
 
 # //////////////////////// end of shield powerup /////////////////////
@@ -212,7 +375,16 @@ def character_gets_shield(world: World):
 
 
 def create_obstacles1(world: World):
-    """Obstacle from frame_time 0 - 900"""
+    """
+    Creates the obstacles for level 1
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but adds the obstacles to the game
+        every 5 seconds (3 total) to the list containing each obstacle for level 1.
+    """
     if world.frame_timer == 150:
         microbe = emoji("microbe")
         obstacle1_1 = Obstacle(microbe, OBSTACLE1_SPEED)
@@ -234,13 +406,31 @@ def create_obstacles1(world: World):
 
 
 def level_one_title(world: World):
-    """create level 1 title"""
+    """
+    Creates the title for level 1
+
+    Args:
+        world (World): The world dataclass created during the start of the game
+
+    Return:
+        None: The function does not return anything, but changes the level_title text
+        to level 1 when a second has passed.
+    """
     if world.game_time_value == 1:
         world.level_title.text = "Level 1"
 
 
 def obstacle1_movement(world: World):
-    """to move the obstacles"""
+    """
+        Allows character to move right
+
+        Args:
+            world (World): The world dataclass created during the start of the game
+
+        Return:
+            None: The function does not return anything, but changes the character speed
+            so that they can only move to the right
+        """
     for obstacle in world.obstacle1_list:
         obstacle.obstacle_itself.x += obstacle.obstacle_speed
 

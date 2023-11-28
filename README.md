@@ -35,6 +35,7 @@ they will aim to achieve the largest score possible.
  - These helped A LOT:
    - Designer Function List
    - Example Firefighter Game (Designer Tutorial)
+ - The CISC108 help section on Discord 
 
 ## Development Progress
 ### Phase 1: Figuring things out
