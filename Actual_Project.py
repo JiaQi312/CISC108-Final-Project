@@ -33,7 +33,7 @@ class World:
     obstacle2_list: list[Obstacle]
     obstacle3_list: list[Obstacle]
     obstacle4_list: list[Obstacle]
-    obstacle6_list: list[Obstacle]
+    saturn_list: list[DesignerObject]
     list_of_shields: list[Shield]
     shield_status: DesignerObject
     shield_amount: int
@@ -198,7 +198,6 @@ def character_hits_shield(world: World) -> bool:
             if (world.character.y + 20) > shield.shield_itself.y > (world.character.y - 20):
                 hits_shield = True
                 destroy(shield.shield_itself)
-                shield.bobbing_toggle = 2
                 world.list_of_shields.remove(shield)
     return hits_shield
 
@@ -493,25 +492,23 @@ def level_six_title(world: World):
             world.level_title.text = "Level 6"
             world.game_time.text = "Reach Saturn!"
 
-
-def create_obstacle6(world: World):
-    """creating obstacle 6"""
+def create_saturn(world: World):
+    """creating saturn (to win the game)"""
     if world.frame_timer == 4500:
         if not world.endless_mode:
             saturn = emoji("🪐")
             saturn.scale_x = 5
             saturn.scale_y = 5
-            obstacle6_1 = Obstacle(saturn, OBSTACLE6_SPEED)
-            obstacle6_1.obstacle_itself.x = get_width() / 2
-            obstacle6_1.obstacle_itself.y = get_height() / 2
-            world.obstacle6_list.append(obstacle6_1)
+            saturn.x = get_width() / 2
+            saturn.y = get_height() / 2
+            world.saturn_list.append(saturn)
 
 def character_hits_saturn(world: World) -> bool:
     """determines whether one wins the game"""
     wins_game = False
-    for obstacle in world.obstacle6_list:
-        if (world.character.x + 50) > obstacle.obstacle_itself.x > (world.character.x - 50):
-            if (world.character.y + 50) > obstacle.obstacle_itself.y > (world.character.y - 50):
+    for saturn in world.saturn_list:
+        if (world.character.x + 50) > saturn.x > (world.character.x - 50):
+            if (world.character.y + 50) > saturn.y > (world.character.y - 50):
                 wins_game = True
     return wins_game
 
@@ -519,6 +516,7 @@ def character_hits_saturn(world: World) -> bool:
 def win_screen(world: World):
     """Shows win screen"""
     world.game_time.text = "Congratulations! Your Score: " + str(world.game_time_value)
+    hide_obstacles(world)
 
 # ///////////////end of end screen/////////////////////////
 
@@ -555,23 +553,20 @@ def character_hits_obstacle(world: World) -> bool:
                     world.shield_amount += -1
     return is_game_over
 
-def destroy_obstacles(world: World):
-    """destroys all obstacles at the end of the game"""
+def hide_obstacles(world: World):
+    """hides all obstacles at the end of the game"""
     for obstacle in world.obstacle1_list:
-        destroy(obstacle.obstacle_itself)
-        world.obstacle1_list.remove(obstacle)
+        hide(obstacle.obstacle_itself)
     for obstacle in world.obstacle2_list:
-        destroy(obstacle.obstacle_itself)
-        world.obstacle2_list.remove(obstacle)
+        hide(obstacle.obstacle_itself)
     for obstacle in world.obstacle3_list:
-        destroy(obstacle.obstacle_itself)
-        world.obstacle3_list.remove(obstacle)
+        hide(obstacle.obstacle_itself)
     for obstacle in world.obstacle4_list:
-        destroy(obstacle.obstacle_itself)
-        world.obstacle4_list.remove(obstacle)
+        hide(obstacle.obstacle_itself)
 def game_over(world: World):
     """shows game over message"""
     world.game_time.text = "Game Over! Score: " + str(world.game_time_value)
+    hide_obstacles(world)
 
 when("starting", create_world)
 when("updating", move_character)
@@ -607,7 +602,7 @@ when("updating", level_five)
 # level5
 # level6
 when("updating", level_six_title)
-when("updating", create_obstacle6)
+when("updating", create_saturn)
 # level6
 # shield
 when(should_shield_spawn, create_shield)
@@ -616,6 +611,6 @@ when("updating", update_shield_status)
 when(character_hits_shield, character_gets_shield)
 # shield
 when("typing", character_direction)
-when(character_hits_saturn, pause, win_screen, destroy_obstacles)
-when(character_hits_obstacle, pause, game_over, destroy_obstacles)
+when(character_hits_saturn, pause, win_screen)
+when(character_hits_obstacle, pause, game_over)
 start()

@@ -73,9 +73,9 @@ they will aim to achieve the largest score possible.
      - [x] Shield Powerup (disappears after time, allows for one free collision)
  - Testing
    - [ ] Character Selection
-   - [ ] Run Through Game
+   - [x] Run Through Game
      - [x] Normal Mode
-     - [ ] Endless Mode
+     - [x] Endless Mode
    - [x] Tweak Obstacle Speeds if Necessary
    - [x] Shield Powerup
-   - [ ] Proper Collision
+   - [x] Proper Collision
