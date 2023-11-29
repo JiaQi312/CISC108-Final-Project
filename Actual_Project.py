@@ -6,7 +6,6 @@ OBSTACLE1_SPEED = 3
 OBSTACLE2_SPEED = 5
 OBSTACLE3_SPEED = 1
 OBSTACLE4_SPEED = 5
-OBSTACLE6_SPEED = 0
 
 @dataclass
 class Obstacle:
@@ -47,7 +46,7 @@ def create_world() -> World:
     Return: The World dataclass, with values for each field, which will be
     updated throughout the game
     """
-    return World(create_character(choose_character()),
+    return World(choose_character(),
                  0,
                  0,
                  text("black", "Time: ", 24, get_width() / 2, 20),
@@ -65,42 +64,37 @@ def create_world() -> World:
                  0
                  )
 
-def choose_character() -> str:
+def choose_character() -> DesignerObject:
     """
-    This function allows the player to choose their character
+    Asks the player to input a word to play as. If the word is not valid, will ask the player
+    to try again. If valid, will generate the character as the emoji of the word entered.
 
     Args: None
 
-    Return (str): A valid word corresponding with a particular emoji, which the player will
-    control during the game.
+    Return (DesignerObject): The emoji which the player will play as
     """
-    valid_names = ["egg", "rocket", "rock", "cat", "dog", "winking"]
     valid_name = False
-    choose_your_character = input("What do you want to play as?" "\n"
-                                  "egg, rocket, rock, cat, dog, winking")
-    if choose_your_character.strip().lower() in valid_names:
+    first_input = input("What do you want to play as?" "\n"
+                        "Type in a word")
+    try:
+        emoji(first_input.lower().strip())
+        final_input = first_input.lower().strip()
         valid_name = True
+    except:
+        valid_name = False
     while not valid_name:
-        choose_your_character = input("Invalid character. Type in one of these" "\n"
-                                      "egg, rocket, rock, cat, dog, winking")
-        if choose_your_character.strip().lower() in valid_names:
+        try:
+            inputed_character = input("Invalid word" "\n"
+                                      "Try another word")
+            formatted_input = inputed_character.lower().strip()
+            try_input = emoji(formatted_input)
+            final_input = formatted_input
             valid_name = True
-    return choose_your_character.strip().lower()
-def create_character(name: str) -> DesignerObject:
-    """
-    Creates the character
+        except:
+            valid_name = False
 
-    Args:
-        name: (str) The name of the emoji obtained from the choose_character function
-
-    Return:
-        DesignerObject: The actual emoji with the player will control
-    """
-    character = emoji(name)
-    character.y = get_height() * (1 / 2)
-    print("all set, start dodging!")
-    return character
-
+    created_character = emoji(final_input)
+    return created_character
 
 def create_timer(world: World):
     """
@@ -142,10 +136,12 @@ def enable_endless() -> bool:
     toggle = input("Endless Mode?" "\n"
                    "yes / no")
     if toggle.lower().strip() == "yes":
+        print("Endless mode enabled." "\n"
+              "Start dodging!")
         return True
-    if toggle.lower().strip() == "no":
-        return False
     else:
+        print("Endless mode disabled." "\n"
+              "Start dodging!")
         return False
 
 def move_character(world: World):
@@ -268,17 +264,17 @@ def character_wall(world: World):
 # /////////////////////////shield powerup/////////////////////////////
 def should_shield_spawn(world: World) -> bool:
     """
-    Decides whether the shield powerup should spawn, set for every 45 seconds
+    Decides whether the shield powerup should spawn, set for every 40 seconds
 
     Args:
         world (World): The world dataclass created during the start of the game
 
     Return:
-        bool: Whether or not a shield should spawn (by testing if it's been exactly
-        45 seconds)
+        bool: Whether a shield should spawn (by testing if it's been exactly
+        40 seconds)
     """
     should_shield = False
-    if not world.frame_timer % 1350:
+    if not world.frame_timer % 1200:
         should_shield = True
     return should_shield
 
@@ -383,21 +379,21 @@ def create_obstacles1(world: World):
 
     Return:
         None: The function does not return anything, but adds the obstacles to the game
-        every 5 seconds (3 total) to the list containing each obstacle for level 1.
+        every 3 seconds (3 total) to the list containing each obstacle for level 1.
     """
-    if world.frame_timer == 150:
+    if world.frame_timer == 90:
         microbe = emoji("microbe")
         obstacle1_1 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_1.obstacle_itself.x = 0
         obstacle1_1.obstacle_itself.y = get_height() / 4
         world.obstacle1_list.append(obstacle1_1)
-    if world.frame_timer == 300:
+    if world.frame_timer == 180:
         microbe = emoji("microbe")
         obstacle1_2 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_2.obstacle_itself.x = 0
         obstacle1_2.obstacle_itself.y = (get_height() * 2) / 4
         world.obstacle1_list.append(obstacle1_2)
-    if world.frame_timer == 450:
+    if world.frame_timer == 270:
         microbe = emoji("microbe")
         obstacle1_3 = Obstacle(microbe, OBSTACLE1_SPEED)
         obstacle1_3.obstacle_itself.x = 0
@@ -465,9 +461,9 @@ def level_two_title(world: World):
 
     Return:
         None: The function does not return anything, but changes the title text to
-        level 2 when 30 seconds has passed.
+        level 2 when 15 seconds has passed.
     """
-    if world.game_time_value == 30:
+    if world.game_time_value == 15:
         world.level_title.text = "Level 2"
 
 
@@ -483,7 +479,7 @@ def create_obstacles2(world: World):
         move up and down on the screen. These frisbees are added to a list for
         all level 2 obstacles.
     """
-    if world.frame_timer == 1050:
+    if world.frame_timer == 450:
         frisbee = emoji("🥏")
         frisbee.scale_x = 1.5
         frisbee.scale_y = 1.5
@@ -491,7 +487,7 @@ def create_obstacles2(world: World):
         obstacle2_1.obstacle_itself.x = get_width() / 5
         obstacle2_1.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_1)
-    if world.frame_timer == 1200:
+    if world.frame_timer == 540:
         frisbee = emoji("🥏")
         frisbee.scale_x = 1.5
         frisbee.scale_y = 1.5
@@ -499,7 +495,7 @@ def create_obstacles2(world: World):
         obstacle2_2.obstacle_itself.x = (get_width() * 2) / 5
         obstacle2_2.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_2)
-    if world.frame_timer == 1350:
+    if world.frame_timer == 630:
         frisbee = emoji("🥏")
         frisbee.scale_x = 1.5
         frisbee.scale_y = 1.5
@@ -507,7 +503,7 @@ def create_obstacles2(world: World):
         obstacle2_3.obstacle_itself.x = (get_width() * 3) / 5
         obstacle2_3.obstacle_itself.y = 0
         world.obstacle2_list.append(obstacle2_3)
-    if world.frame_timer == 1500:
+    if world.frame_timer == 720:
         frisbee = emoji("🥏")
         frisbee.scale_x = 1.5
         frisbee.scale_y = 1.5
@@ -564,7 +560,7 @@ def level_three_title(world: World):
         None: The function does not return anything, but changes the text of
         level_title to level 3.
     """
-    if world.game_time_value == 60:
+    if world.game_time_value == 30:
         world.level_title.text = "Level 3"
 
 
@@ -579,7 +575,7 @@ def create_obstacle3(world: World):
         None: The function does not return anything, but creates the obstacle and adds
         it to the obstacle 3 list.
     """
-    if world.frame_timer == 1950:
+    if world.frame_timer == 900:
         plane = emoji("airplane")
         plane.scale_y = 3
         plane.scale_x = 3
@@ -641,7 +637,7 @@ def level_four_title(world: World):
         None: The function does not return anything. Updates the text of level_title
         to level 4.
     """
-    if world.game_time_value == 90:
+    if world.game_time_value == 45:
         world.level_title.text = "Level 4"
 
 
@@ -656,7 +652,7 @@ def create_obstacle4(world: World):
         None: The function does not return anything. Creates obstacles every 5
         seconds and adds them to the obstacle 4 list.
     """
-    if world.frame_timer == 2850:
+    if world.frame_timer == 1350:
         satellite = emoji("satellite")
         satellite.scale_y = 3
         satellite.scale_x = 3
@@ -664,7 +660,7 @@ def create_obstacle4(world: World):
         obstacle4_1.obstacle_itself.x = 20
         obstacle4_1.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_1)
-    if world.frame_timer == 3000:
+    if world.frame_timer == 1500:
         satellite = emoji("satellite")
         satellite.scale_y = 3
         satellite.scale_x = 3
@@ -672,7 +668,7 @@ def create_obstacle4(world: World):
         obstacle4_2.obstacle_itself.x = 20
         obstacle4_2.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_2)
-    if world.frame_timer == 3150:
+    if world.frame_timer == 1650:
         satellite = emoji("satellite")
         satellite.scale_y = 3
         satellite.scale_x = 3
@@ -680,7 +676,7 @@ def create_obstacle4(world: World):
         obstacle4_3.obstacle_itself.x = 20
         obstacle4_3.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_3)
-    if world.frame_timer == 3300:
+    if world.frame_timer == 1800:
         satellite = emoji("satellite")
         satellite.scale_y = 3
         satellite.scale_x = 3
@@ -688,7 +684,7 @@ def create_obstacle4(world: World):
         obstacle4_4.obstacle_itself.x = 20
         obstacle4_4.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_4)
-    if world.frame_timer == 3450:
+    if world.frame_timer == 1950:
         satellite = emoji("satellite")
         satellite.scale_y = 3
         satellite.scale_x = 3
@@ -696,7 +692,7 @@ def create_obstacle4(world: World):
         obstacle4_5.obstacle_itself.x = 20
         obstacle4_5.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_5)
-    if world.frame_timer == 3600:
+    if world.frame_timer == 2100:
         satellite = emoji("satellite")
         satellite.scale_y = 3
         satellite.scale_x = 3
@@ -704,7 +700,7 @@ def create_obstacle4(world: World):
         obstacle4_6.obstacle_itself.x = 20
         obstacle4_6.obstacle_itself.y = 20
         world.obstacle4_list.append(obstacle4_6)
-    if world.frame_timer == 3750:
+    if world.frame_timer == 2250:
         satellite = emoji("satellite")
         satellite.scale_y = 3
         satellite.scale_x = 3
@@ -773,7 +769,7 @@ def level_five_title(world: World):
         None: The function does not return anything. Updates the text of level_title
         to level 5
     """
-    if world.game_time_value == 140:
+    if world.game_time_value == 80:
         world.level_title.text = "Level 5"
 
 
@@ -785,22 +781,22 @@ def level_five(world: World):
         world (World): The world dataclass created during the start of the game
 
     Return:
-        None: The function does not return anything. When 140 seconds has passed,
+        None: The function does not return anything. When 80 seconds has passed,
         runs through obstacle lists and increases their speeds
     """
-    if world.frame_timer == 4200:
+    if world.frame_timer == 2400:
         for obstacle in world.obstacle1_list:
             if obstacle.obstacle_speed > 0:
-                obstacle.obstacle_speed += 2
+                obstacle.obstacle_speed += 3
             if obstacle.obstacle_speed < 0:
-                obstacle.obstacle_speed += -2
+                obstacle.obstacle_speed += -3
         for obstacle in world.obstacle2_list:
             if obstacle.obstacle_speed > 0:
-                obstacle.obstacle_speed += 2
+                obstacle.obstacle_speed += 3
             if obstacle.obstacle_speed < 0:
-                obstacle.obstacle_speed += -2
+                obstacle.obstacle_speed += -3
         for obstacle in world.obstacle3_list:
-                obstacle.obstacle_speed += 0.5
+            obstacle.obstacle_speed += 0.5
 
 # ////////////////end of level 5/////////////////////////////
 
@@ -813,13 +809,13 @@ def level_six_title(world: World):
         world (World): The world dataclass created during the start of the game
 
     Return:
-        None: The function does not return anything. When the time reaches 150 seconds,
+        None: The function does not return anything. When the time reaches 90 seconds,
         the text of level_title and game_time are updated accordingly.
     """
-    if world.frame_timer == 4500:
+    if world.frame_timer == 2700:
         if not world.endless_mode:
             world.level_title.text = "Level 6"
-            world.game_time.text = "Reach Saturn!"
+            world.game_time.text = "Reach Saturn before 100 seconds!"
 
 def create_saturn(world: World):
     """
@@ -829,10 +825,10 @@ def create_saturn(world: World):
         world (World): The world dataclass created during the start of the game
 
     Return:
-        None: The function does not return anything. When 150 seconds have passed,
+        None: The function does not return anything. When 90 seconds have passed,
         creates the saturn emoji at the center of the screen.
     """
-    if world.frame_timer == 4500:
+    if world.frame_timer == 2700:
         if not world.endless_mode:
             saturn = emoji("🪐")
             saturn.scale_x = 5
@@ -850,7 +846,7 @@ def character_hits_saturn(world: World) -> bool:
         world (World): The world dataclass created during the start of the game
 
     Return:
-        bool: Whether or not the character has reached saturn
+        bool: Whether the character has reached saturn
     """
     wins_game = False
     for saturn in world.saturn_list:
@@ -879,15 +875,15 @@ def win_screen(world: World):
 
 def character_hits_obstacle(world: World) -> bool:
     """
-    Determines whether or not the character has hit an obstacle, which decides whether they
-    lose the game.
+    Determines whether the character has hit an obstacle, which decides whether they
+    lose the game. Player also loses if 100 seconds have passed since the start of the game.
 
     Args:
         world (World): The world dataclass created during the start of the game
 
     Return:
-        bool: Whether or not any obstacles have entered into range of the character. Will also
-        decrease shield if the player has any (or else they lose).
+        bool: Whether any obstacles have entered into range of the character or if
+        100 seconds have passed. Will also decrease shield if the player has any (or else they lose).
     """
     is_game_over = False
     for obstacle in world.obstacle1_list:
@@ -918,6 +914,8 @@ def character_hits_obstacle(world: World) -> bool:
                     is_game_over = True
                 else:
                     world.shield_amount += -1
+    if world.game_time_value >= 100:
+        is_game_over = True
     return is_game_over
 
 def hide_obstacles(world: World):
@@ -942,7 +940,7 @@ def hide_obstacles(world: World):
 def game_over(world: World):
     """
     The game over screen for the game. Occurs when the player hits an obstacle with
-    0 shield.
+    0 shield or 100 seconds have passed since the start of the game.
 
     Args:
         world (World): The world dataclass created during the start of the game

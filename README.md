@@ -1,32 +1,31 @@
-Jia Qi <br>
-qijia@udel.edu
+### Title: 90 Seconds
 
-**Project:** Dodging Dangerous Deterrents
-
-Dodging compounding obstacles of various scales, speeds, and sizes
+Dodging compounding obstacles which scale in size and speed
 
 ### About
 Following the theme of SCALE, I will be attempting to create
 a game in which the player will control a character and dodge 
-projectiles and obstacles (of increasing scales) on screen for 30 seconds.
-After successfully staying safe for 30 seconds, the player will move on to 
+projectiles and obstacles (of increasing scale). The player will move on to 
 different levels, in which additional obstacles will be added on top of the 
 already existing obstacles. This continues until the player reaches the final 
 phase and wins the game by reaching the end. If the player is in endless mode,
 they will aim to achieve the largest score possible. 
 
-### Preview: (will insert video here)
+### Game Demo: https://youtu.be/Z2mcJ_HuehY
 
 ### Instructions:
  - Pre-Game
    - Prompt will come up in terminal
      - Choose character to play (type in word)
+       - Will be asked to enter another word if no character exists
      - choose yes / no for endless mode 
      - Then good to go!
  - Dodge the obstacles
- - Control character with the arrow keys 
+ - Control character with the **arrow** keys 
  - Collect the shields which pop up throughout the game
    - Each shield allows you to collide obstacles for 20 frames without losing
+ - When you lose, the game will pause
+   - Will need to rerun the code to play again
 
 ### Authors:
  - Jia Qi (qijia@udel.edu)
@@ -35,7 +34,7 @@ they will aim to achieve the largest score possible.
  - These helped A LOT:
    - Designer Function List
    - Example Firefighter Game (Designer Tutorial)
- - The CISC108 help section on Discord 
+ - My professor and TAs!
 
 ## Development Progress
 ### Phase 1: Figuring things out
@@ -73,7 +72,7 @@ they will aim to achieve the largest score possible.
      - [x] Endless mode (turn off saturn level)
      - [x] Shield Powerup (disappears after time, allows for one free collision)
  - Testing
-   - [ ] Character Selection
+   - [x] Character Selection
    - [x] Run Through Game
      - [x] Normal Mode
      - [x] Endless Mode
